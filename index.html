@@ -13,9 +13,9 @@
 <title>PILOT | Long-Horizon World-Model Planning</title>
 <link href="assets/pilot-logo.png" rel="icon" type="image/png"/>
 <link as="font" crossorigin="anonymous" href="assets/fonts/noto-sans-latin.woff2" rel="preload" type="font/woff2"/>
-<link href="assets/style.css?v=7" rel="stylesheet"/>
+<link href="assets/style.css?v=8" rel="stylesheet"/>
 <script defer="" src="assets/media.js"></script>
-<script defer="" src="assets/main.js"></script>
+<script defer="" src="assets/main.js?v=2"></script>
 </head>
 <body>
 <svg aria-hidden="true" class="icon-definitions" xmlns="http://www.w3.org/2000/svg">
@@ -96,13 +96,10 @@
 <section aria-labelledby="experiments-title" class="section section-tinted" id="experiments">
 <div class="container">
 <div class="section-heading centered">
-<h2 id="experiments-title">Real robot experiments</h2>
+<h2 id="experiments-title">Four tasks. One planning framework.</h2>
 <p>Long-horizon tabletop manipulation on a UR5e with a fixed RGB camera.</p>
 </div>
-<figure class="paper-figure setup-figure">
-<a aria-label="Enlarge the real-world robot setup figure" class="figure-link" data-lightbox="" href="assets/figures/robot-setup.webp"><img alt="Real-world evaluation setup with a UR5e arm, a fixed RGB camera, and a tabletop manipulation workspace." height="1086" loading="lazy" src="assets/figures/robot-setup.webp" width="1448"/></a>
-<figcaption><strong>A matched task-specific demonstration budget.</strong> Wan and π<sub>0</sub> are fine-tuned on the same 40 successful demonstrations, 10 per task. World-model training additionally uses these demonstrations and approximately 5 hours of random-play interaction, alongside foundation-model pretraining.</figcaption>
-</figure><div class="task-grid">
+<div class="task-grid">
 <article class="task-card" data-video="cup">
 <div class="task-media"><img alt="Predicted final subgoal for the Cup task, showing the robot holding a purple cup above a black bowl." height="480" loading="lazy" src="assets/figures/cup-poster.webp" width="600"/><div class="video-placeholder"><svg class="icon"><use href="#icon-film"></use></svg><span>Video coming soon</span></div></div>
 <div class="task-info"><span class="task-index">01</span><h3>Cup</h3><span class="task-rate">11/20 <span>successes</span></span></div>
@@ -132,10 +129,23 @@
 </section>
 <section aria-labelledby="results-title" class="section container" id="results">
 <div class="section-heading centered">
-<h2 id="results-title">Quantitative results</h2>
+<h2 id="results-title">Better guidance. More successful manipulation.</h2>
 <p>20 trials per task, 80 trials per method. All world-model variants share the same short prediction horizon.</p>
 </div>
-<p class="results-intro">PILOT achieves 68.8% average success across the four real-world tasks. Visual subgoals raise success from 0.0% for direct final-goal planning to 55.0%; policy initialization provides a further 13.8 percentage-point gain.</p><div aria-label="Real-world success results table" class="table-scroll" role="region" tabindex="0">
+<div class="results-summary">
+<div aria-label="Average real-world success: Flat WM 0.0%; Policy only 13.8%; PILOT without prior 55.0%; PILOT 68.8%." class="success-chart">
+<div class="chart-title">Average task success <span>Higher is better ↑</span></div>
+<div class="bar-row"><span class="bar-label">Flat WM</span><div class="bar-track"><div class="bar-fill muted-fill" style="--success:0%"></div></div><strong>0.0%</strong></div>
+<div class="bar-row"><span class="bar-label">Policy only</span><div class="bar-track"><div class="bar-fill muted-fill" style="--success:13.8%"></div></div><strong>13.8%</strong></div>
+<div class="bar-row"><span class="bar-label">PILOT w/o prior</span><div class="bar-track"><div class="bar-fill light-fill" style="--success:55%"></div></div><strong>55.0%</strong></div>
+<div class="bar-row pilot-bar"><span class="bar-label">PILOT</span><div class="bar-track"><div class="bar-fill" style="--success:68.8%"></div></div><strong>68.8%</strong></div>
+<p class="chart-note">Visual subgoals provide temporal guidance. Policy initialization adds a further 13.8 percentage points in average success.</p>
+</div>
+<aside class="setup-summary">
+<a aria-label="Enlarge the real-world robot setup figure" class="figure-link" data-lightbox="" href="assets/figures/robot-setup.webp"><img alt="Real-world evaluation setup with a UR5e arm, a fixed RGB camera, and a tabletop manipulation workspace." height="1086" loading="lazy" src="assets/figures/robot-setup.webp" width="1448"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span></a>
+<p><strong>A matched task-specific demonstration budget.</strong> Wan and π<sub>0</sub> are fine-tuned on the same 40 successful demonstrations, 10 per task. World-model training additionally uses these demonstrations and approximately 5 hours of random-play interaction, alongside foundation-model pretraining.</p>
+</aside>
+</div><div aria-label="Real-world success results table" class="table-scroll" role="region" tabindex="0">
 <table>
 <caption>Real-world task success. Average pools all 80 trials; intervals are 95% Wilson confidence intervals.</caption>
 <thead><tr><th scope="col">Method</th><th scope="col">Cup</th><th scope="col">Pencil Case</th><th scope="col">Bowl-Box</th><th scope="col">Bowl-Bowl</th><th scope="col">Average</th><th scope="col">95% CI</th></tr></thead>
@@ -162,12 +172,16 @@
 </section>
 <section aria-labelledby="simulation-title" class="section container" id="simulation">
 <div class="section-heading centered">
-<h2 id="simulation-title">Simulation experiments</h2>
+<h2 id="simulation-title">Complementary gains across environments</h2>
 <p>Controlled studies of task length, policy initialization, and the source of visual subgoals.</p>
 </div>
-<div class="simulation-experiments">
-<div class="benchmark-panel" id="pusht-panel">
-<div class="benchmark-heading"><div><h3>Push-T: scaling with task horizon</h3><p>30 held-out initial states per length bucket. The prediction horizon stays fixed as task duration increases.</p></div></div>
+<div class="simulation-tabs" data-tabs="">
+<div aria-label="Simulation benchmark" class="tab-list" hidden="" role="tablist">
+<button aria-controls="pusht-panel" aria-selected="true" data-tab="pusht-panel" id="pusht-tab" role="tab" type="button">Push-T <span>Planar pushing</span></button>
+<button aria-controls="libero-panel" aria-selected="false" data-tab="libero-panel" id="libero-tab" role="tab" tabindex="-1" type="button">LIBERO-10 <span>Two-stage manipulation</span></button>
+</div>
+<div class="benchmark-panel" data-panel="" id="pusht-panel">
+<div class="benchmark-heading"><div><h3>Push-T: scaling with task horizon</h3><p>30 held-out initial states per length bucket. The prediction horizon stays fixed as task duration increases.</p></div><span class="result-callout">+30 pp <small>on long tasks vs. policy only</small></span></div>
 <div aria-label="Push-T success results table" class="table-scroll" role="region" tabindex="0">
 <table><caption>Success by task length. PILOT uses the same 30-demonstration policy as the corresponding Policy only baseline.</caption><thead><tr><th scope="col">Method</th><th scope="col">Short</th><th scope="col">Medium</th><th scope="col">Long</th></tr></thead><tbody>
 <tr><th scope="row">Flat WM</th><td>33.3%</td><td>0.0%</td><td>0.0%</td></tr>
@@ -185,8 +199,8 @@
 <details class="additional-analysis"><summary>Planning efficiency and the strength of the policy prior <span aria-hidden="true">+</span></summary><div class="analysis-content"><p>Even a weak prior improves the success–planning-time trade-off. The 30-demonstration prior exceeds 60% medium-task success at 8 seconds per planning call. Policy initialization reaches in four iterations the cost that generic initialization reaches in ten, and finishes 24.1% lower under the same sampling budget.</p><div class="figure-grid"><figure class="paper-figure plot-figure"><a aria-label="Enlarge Push-T success versus planning time" class="figure-link" data-lightbox="" href="assets/figures/pusht-success-time.webp"><img alt="Push-T medium-task success versus planning time for generic initialization and policy priors trained on 10, 20, and 30 demonstrations. Curves are saturating-exponential fits." height="505" loading="lazy" src="assets/figures/pusht-success-time.webp" width="726"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg></span></a><figcaption>Stronger priors reach higher success with less planning time; curves are saturating-exponential fits.</figcaption></figure><figure class="paper-figure plot-figure"><a aria-label="Enlarge Push-T CEM planning cost" class="figure-link" data-lightbox="" href="assets/figures/pusht-planning-cost.webp"><img alt="Normalized CEM cost on identical planning problems from 90 held-out Push-T initial states, comparing policy initialization with generic initialization. Shading shows standard errors." height="505" loading="lazy" src="assets/figures/pusht-planning-cost.webp" width="726"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg></span></a><figcaption>Normalized objective on 90 held-out initial states; shading indicates standard errors.</figcaption></figure></div></div></details>
 <p class="benchmark-note">Short: expert episode length &lt; 100 steps. Medium: 100–129. Long: ≥ 130. Wan uses 100 Push-T video demonstrations; the main policy prior uses 30 action demonstrations.</p>
 </div>
-<div class="benchmark-panel" id="libero-panel">
-<div class="benchmark-heading"><div><h3>LIBERO-10: long-horizon manipulation</h3><p>Ten language-conditioned, two-stage tasks on a Franka arm. Five held-out initial states per task, 50 trials per method.</p></div></div>
+<div class="benchmark-panel" data-panel="" id="libero-panel">
+<div class="benchmark-heading"><div><h3>LIBERO-10: long-horizon manipulation</h3><p>Ten language-conditioned, two-stage tasks on a Franka arm. Five held-out initial states per task, 50 trials per method.</p></div><span class="result-callout">+22 pp <small>over direct policy execution</small></span></div>
 <div aria-label="LIBERO-10 success results table" class="table-scroll" role="region" tabindex="0"><table><caption>Aggregate success across the ten LIBERO tasks.</caption><thead><tr><th scope="col">Method</th><th scope="col">Success rate</th></tr></thead><tbody>
 <tr><th scope="row">Flat WM</th><td>0.0%</td></tr>
 <tr><th scope="row">Flat WM + prior</th><td>0.0%</td></tr>

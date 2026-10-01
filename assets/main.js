@@ -61,6 +61,44 @@
     document.querySelector(".media-note").textContent = "Poster images are video-predicted subgoals from the paper. Use the video controls to play available robot demonstrations.";
   }
 
+  // Both benchmark sections remain readable when JavaScript is unavailable.
+  document.querySelectorAll("[data-tabs]").forEach((group) => {
+    const tablist = group.querySelector("[role='tablist']");
+    const tabs = [...tablist.querySelectorAll("[role='tab']")];
+    const panels = [...group.querySelectorAll("[data-panel]")];
+    const select = (tab, focus = false) => {
+      tabs.forEach((item) => {
+        const selected = item === tab;
+        item.setAttribute("aria-selected", String(selected));
+        item.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach((panel) => { panel.hidden = panel.id !== tab.dataset.tab; });
+      if (focus) tab.focus();
+    };
+    panels.forEach((panel) => {
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-labelledby", tabs.find((tab) => tab.dataset.tab === panel.id).id);
+      panel.tabIndex = 0;
+    });
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(tab));
+      tab.addEventListener("keydown", (event) => {
+        let next;
+        if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+        if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === "Home") next = 0;
+        if (event.key === "End") next = tabs.length - 1;
+        if (next !== undefined) {
+          event.preventDefault();
+          select(tabs[next], true);
+        }
+      });
+    });
+    group.classList.add("tabs-enhanced");
+    tablist.hidden = false;
+    select(tabs[0]);
+  });
+
   const dialog = document.querySelector(".figure-dialog");
   if (dialog && typeof dialog.showModal === "function") {
     let opener;
