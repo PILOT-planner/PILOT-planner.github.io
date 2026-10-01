@@ -1,0 +1,16 @@
+# Local workspace metadata
+/.agents/
+/.aws/
+/.codex/
+
+# Original inputs and extracted manuscript materials
+/RA_L_PILOT_submission*.pdf
+/*.zip
+/963-9638141_pilot-project-icon.png
+/paper-source/
+
+# Generated output and browser previews
+/dist/
+/previews/
+__pycache__/
+*.pyc

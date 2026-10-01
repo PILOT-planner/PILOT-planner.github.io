@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#ffffff" name="theme-color"/>
+<meta content="PILOT guides long-horizon robotic manipulation with video-predicted visual subgoals, policy-initialized local optimization, and an action-conditioned world model." name="description"/>
+<meta content="website" property="og:type"/>
+<meta content="PILOT · Visual Subgoals and Policy Priors for Robotic Manipulation" property="og:title"/>
+<meta content="Long-horizon task guidance. Short-horizon action refinement. 68.8% success across four real-world UR5e manipulation tasks." property="og:description"/>
+<meta content="assets/figures/method.webp" property="og:image"/>
+<title>PILOT | Long-Horizon World-Model Planning</title>
+<link href="assets/pilot-logo.png" rel="icon" type="image/png"/>
+<link as="font" crossorigin="anonymous" href="assets/fonts/noto-sans-latin.woff2" rel="preload" type="font/woff2"/>
+<link href="assets/style.css?v=7" rel="stylesheet"/>
+<script defer="" src="assets/media.js"></script>
+<script defer="" src="assets/main.js"></script>
+</head>
+<body>
+<svg aria-hidden="true" class="icon-definitions" xmlns="http://www.w3.org/2000/svg">
+<symbol id="icon-paper" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h5"></path></symbol>
+<symbol id="icon-code" viewbox="0 0 24 24"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 20"></path></symbol>
+<symbol id="icon-arrow" viewbox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"></path></symbol>
+<symbol id="icon-expand" viewbox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"></path></symbol>
+<symbol id="icon-copy" viewbox="0 0 24 24"><rect height="13" rx="2" width="12" x="8" y="8"></rect><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path></symbol>
+<symbol id="icon-close" viewbox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"></path></symbol>
+<symbol id="icon-film" viewbox="0 0 24 24"><rect height="18" rx="2" width="18" x="3" y="3"></rect><path d="M7 3v18M17 3v18M3 8h4m-4 8h4m10-8h4m-4 8h4"></path></symbol>
+</svg>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<nav aria-label="Main navigation" class="navigation container">
+<a aria-label="PILOT home" class="wordmark" href="#"><img alt="PILOT project icon" class="brand-mark" height="723" src="assets/pilot-logo.png" width="820"/>PILOT<span class="wordmark-dot">.</span></a>
+<div class="nav-links"><a href="#abstract">Abstract</a><a href="#method">Method</a><a href="#experiments">Experiments</a><a href="#results">Results</a><a href="#citation">BibTeX</a></div>
+<a class="nav-paper" href="assets/pilot-paper.pdf" rel="noopener" target="_blank">Paper <span aria-hidden="true">↗</span></a>
+</nav>
+</header>
+<main id="main">
+<section aria-labelledby="paper-title" class="hero"><div class="container">
+<h1 id="paper-title"><span class="hero-name">PILOT: </span><span class="hero-title">Guiding <span class="title-phrase">Long-Horizon</span> <span class="title-phrase">World-Model</span> Planning with Visual Subgoals and Policy Priors for Robotic Manipulation</span></h1><p class="authors">Anonymous</p>
+<p class="acronym"><strong>P</strong>olicy-<strong>I</strong>nitialized <strong>L</strong>ocal <strong>O</strong>ptimization with <strong>T</strong>emporal subgoals</p>
+<div class="resource-links">
+<a class="resource-button primary" href="assets/pilot-paper.pdf" rel="noopener" target="_blank"><svg class="icon"><use href="#icon-paper"></use></svg>Paper <span class="button-detail">PDF</span></a>
+<a aria-disabled="true" class="resource-button is-disabled" data-code-link=""><svg class="icon"><use href="#icon-code"></use></svg>Code <span class="button-detail" data-code-status="">Coming soon</span></a>
+<a class="resource-button" href="#experiments"><svg class="icon"><use href="#icon-film"></use></svg>Experiments</a>
+<a class="resource-button" data-arxiv-link="" hidden="" rel="noopener" target="_blank">arXiv <span aria-hidden="true">↗</span></a>
+</div>
+<div aria-label="Key results" class="hero-stats">
+<div class="stat"><strong>68.8<span>%</span></strong><span class="stat-label">Real-robot success</span><span class="stat-context">Four UR5e manipulation tasks</span></div>
+<div class="stat"><strong>+30<span>pp</span></strong><span class="stat-label">Long Push-T improvement</span><span class="stat-context">Over direct execution of the same policy</span></div>
+<div class="stat"><strong>+22<span>pp</span></strong><span class="stat-label">LIBERO-10 improvement</span><span class="stat-context">Over direct execution of the same policy</span></div>
+</div>
+</div></section>
+<section aria-labelledby="overview-title" class="section container" id="overview"><div class="idea-grid">
+<article class="idea"><span class="step-number purple">1</span><h3>See the intermediate steps</h3><p>A video model predicts visual subgoals from the current observation and task instruction.</p></article>
+<article class="idea"><span class="step-number green">2</span><h3>Start with a policy prior</h3><p>A learned policy initializes CEM around behaviorally plausible action sequences.</p></article>
+<article class="idea"><span class="step-number blue">3</span><h3>Refine before execution</h3><p>An action-conditioned world model evaluates candidates. The robot executes a short prefix and replans.</p></article>
+</div>
+<div class="section-heading centered">
+<h2 id="overview-title">Visual subgoals for long-horizon planning</h2>
+<p>A distant goal tells the robot where to finish. Visual subgoals reveal how to get there,<br class="desktop-break"/> and a policy prior gives each local search a useful starting point.</p>
+</div>
+<figure class="paper-figure motivation-figure">
+<a aria-label="Enlarge the PILOT motivation figure" class="figure-link" data-lightbox="" href="assets/figures/motivation.webp">
+<img alt="Visual subgoals guide a robot through intermediate stages of a non-convex planning landscape, while a policy prior concentrates local action search around plausible trajectories." fetchpriority="high" height="1265" src="assets/figures/motivation.webp" width="2200"/>
+<span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span>
+</a>
+<figcaption>Temporal guidance breaks a distant objective into local targets. Behavioral guidance makes the search toward each target more efficient.</figcaption>
+</figure>
+</section>
+<section aria-labelledby="abstract-title" class="abstract-band" id="abstract">
+<div class="container narrow">
+<h2 id="abstract-title">Abstract</h2>
+<p>World-model planning for long-horizon manipulation is constrained by short reliable prediction horizons: a distant goal may provide little guidance for preparatory actions, while uninformed action sampling makes local optimization inefficient. We propose <strong>PILOT</strong> (Policy-Initialized Local Optimization with Temporal subgoals), which uses a video model to generate intermediate visual targets and a learned policy to initialize the Cross-Entropy Method (CEM). An action-conditioned world model refines candidate actions toward each target in a receding-horizon control loop.</p>
+<p>Our primary evaluation fine-tunes Wan and π<sub>0</sub> on the same 40 real-robot demonstrations. Across four UR5e manipulation tasks, PILOT achieves <strong>68.8% success</strong>, compared with 55.0% without policy initialization, 13.8% for policy-only execution, and 0.0% for direct final-goal planning. These results show that visual subgoals learned from a small demonstration collection can support effective online control even when direct policy execution remains unreliable, with policy initialization further improving local search efficiency. Complementary simulation experiments show gains of 30 and 22 percentage points over direct execution of the same policy on long Push-T tasks and on LIBERO-10.</p>
+</div>
+</section>
+<section aria-labelledby="method-title" class="section container" id="method">
+<div class="section-heading centered">
+<h2 id="method-title">PILOT framework</h2>
+<p>Three complementary models, connected by a closed-loop planner.</p>
+</div>
+<figure class="paper-figure">
+<a aria-label="Enlarge the PILOT framework diagram" class="figure-link" data-lightbox="" href="assets/figures/method.webp">
+<img alt="PILOT architecture: a video model generates visual subgoals, a policy proposes an action prior, and CEM refines actions using predicted latent states and the active visual target." height="848" loading="lazy" src="assets/figures/method.webp" width="1855"/>
+<span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span>
+</a>
+<figcaption>The video model proposes task progression; the policy proposes where to search. The action-conditioned world model evaluates and refines actions toward the active target.</figcaption>
+</figure>
+<details class="method-implementation"><summary>Implementation details</summary><div class="method-details">
+<div><span class="model-tag purple-tag">Wan2.1-1.3B</span><h3>Predict temporal subgoals</h3><p>Generate a future video from the initial observation and language instruction. Select uniformly spaced frames as intermediate planning targets.</p></div>
+<div><span class="model-tag green-tag">π<sub>0</sub> + CEM</span><h3>Initialize and optimize</h3><p>Use the policy’s action proposal as the initial CEM mean, then refine candidates against the current subgoal rather than executing the policy directly.</p></div>
+<div><span class="model-tag blue-tag">JEPA-WM + MPC</span><h3>Execute and replan</h3><p>Minimize terminal latent distance to the target. Execute the first action, observe the new state, and repeat before advancing to the next subgoal.</p></div>
+</div><div class="method-note"><strong>Real-world control:</strong> 6 visual targets · prediction horizon h = 2 · 1 action executed per update · 2 planning–execution cycles per target.</div></details>
+</section>
+<section aria-labelledby="experiments-title" class="section section-tinted" id="experiments">
+<div class="container">
+<div class="section-heading centered">
+<h2 id="experiments-title">Real robot experiments</h2>
+<p>Long-horizon tabletop manipulation on a UR5e with a fixed RGB camera.</p>
+</div>
+<figure class="paper-figure setup-figure">
+<a aria-label="Enlarge the real-world robot setup figure" class="figure-link" data-lightbox="" href="assets/figures/robot-setup.webp"><img alt="Real-world evaluation setup with a UR5e arm, a fixed RGB camera, and a tabletop manipulation workspace." height="1086" loading="lazy" src="assets/figures/robot-setup.webp" width="1448"/></a>
+<figcaption><strong>A matched task-specific demonstration budget.</strong> Wan and π<sub>0</sub> are fine-tuned on the same 40 successful demonstrations, 10 per task. World-model training additionally uses these demonstrations and approximately 5 hours of random-play interaction, alongside foundation-model pretraining.</figcaption>
+</figure><div class="task-grid">
+<article class="task-card" data-video="cup">
+<div class="task-media"><img alt="Predicted final subgoal for the Cup task, showing the robot holding a purple cup above a black bowl." height="480" loading="lazy" src="assets/figures/cup-poster.webp" width="600"/><div class="video-placeholder"><svg class="icon"><use href="#icon-film"></use></svg><span>Video coming soon</span></div></div>
+<div class="task-info"><span class="task-index">01</span><h3>Cup</h3><span class="task-rate">11/20 <span>successes</span></span></div>
+</article>
+<article class="task-card" data-video="pencil-case">
+<div class="task-media"><img alt="Predicted final subgoal for the Pencil Case task, showing the robot placing a green pencil case in a box." height="480" loading="lazy" src="assets/figures/pencil-case-poster.webp" width="600"/><div class="video-placeholder"><svg class="icon"><use href="#icon-film"></use></svg><span>Video coming soon</span></div></div>
+<div class="task-info"><span class="task-index">02</span><h3>Pencil Case</h3><span class="task-rate">13/20 <span>successes</span></span></div>
+</article>
+<article class="task-card" data-video="bowl-box">
+<div class="task-media"><img alt="Predicted final subgoal for the Bowl-Box task, showing a blue bowl placed in a box." height="480" loading="lazy" src="assets/figures/bowl-box-poster.webp" width="600"/><div class="video-placeholder"><svg class="icon"><use href="#icon-film"></use></svg><span>Video coming soon</span></div></div>
+<div class="task-info"><span class="task-index">03</span><h3>Bowl-Box</h3><span class="task-rate">13/20 <span>successes</span></span></div>
+</article>
+<article class="task-card" data-video="bowl-bowl">
+<div class="task-media"><img alt="Predicted final subgoal for the Bowl-Bowl task, showing the robot stacking a blue bowl with a black bowl." height="480" loading="lazy" src="assets/figures/bowl-bowl-poster.webp" width="600"/><div class="video-placeholder"><svg class="icon"><use href="#icon-film"></use></svg><span>Video coming soon</span></div></div>
+<div class="task-info"><span class="task-index">04</span><h3>Bowl-Bowl</h3><span class="task-rate">18/20 <span>successes</span></span></div>
+</article>
+</div>
+<p class="media-note">Still images are video-predicted subgoals from the paper. Robot demonstration videos will be added here.</p>
+<figure class="paper-figure execution-figure wide-figure">
+<a aria-label="Enlarge the predicted subgoals and robot executions for all four tasks" class="figure-link" data-lightbox="" href="assets/figures/real-subgoals.webp">
+<img alt="Four real-world task panels. In each panel, the top row shows the initial observation and six predicted subgoals; the bottom row shows the robot’s actual observations as it executes the plan." height="932" loading="lazy" src="assets/figures/real-subgoals.webp" width="3248"/>
+<span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span>
+</a>
+<figcaption><strong>Predicted subgoals → robot execution.</strong> The top row of each panel shows video-predicted targets; the bottom row shows the robot observation when each subgoal expires. <span class="figure-scroll-note">Swipe sideways to explore the figure on smaller screens.</span></figcaption>
+</figure>
+</div>
+</section>
+<section aria-labelledby="results-title" class="section container" id="results">
+<div class="section-heading centered">
+<h2 id="results-title">Quantitative results</h2>
+<p>20 trials per task, 80 trials per method. All world-model variants share the same short prediction horizon.</p>
+</div>
+<p class="results-intro">PILOT achieves 68.8% average success across the four real-world tasks. Visual subgoals raise success from 0.0% for direct final-goal planning to 55.0%; policy initialization provides a further 13.8 percentage-point gain.</p><div aria-label="Real-world success results table" class="table-scroll" role="region" tabindex="0">
+<table>
+<caption>Real-world task success. Average pools all 80 trials; intervals are 95% Wilson confidence intervals.</caption>
+<thead><tr><th scope="col">Method</th><th scope="col">Cup</th><th scope="col">Pencil Case</th><th scope="col">Bowl-Box</th><th scope="col">Bowl-Bowl</th><th scope="col">Average</th><th scope="col">95% CI</th></tr></thead>
+<tbody>
+<tr><th scope="row">Flat WM</th><td>0/20</td><td>0/20</td><td>0/20</td><td>0/20</td><td>0.0%</td><td>[0.0, 4.6]</td></tr>
+<tr><th scope="row">Policy only</th><td>4/20</td><td>3/20</td><td>2/20</td><td>2/20</td><td>13.8%</td><td>[7.9, 23.0]</td></tr>
+<tr><th scope="row">PILOT w/o prior</th><td>8/20</td><td>5/20</td><td>14/20</td><td>17/20</td><td>55.0%</td><td>[44.1, 65.4]</td></tr>
+<tr class="highlight-row"><th scope="row">PILOT <span class="ours-tag">Ours</span></th><td>11/20</td><td>13/20</td><td>13/20</td><td>18/20</td><td><strong>68.8%</strong></td><td>[57.9, 77.8]</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section aria-labelledby="efficiency-title" class="section section-tinted">
+<div class="container">
+<div class="section-heading centered">
+<h2 id="efficiency-title">Planning efficiency</h2>
+<p>Policy initialization improves performance under limited planning budgets<br class="desktop-break"/> and provides a lower-cost starting point for CEM refinement.</p>
+</div>
+<div class="figure-grid">
+<figure class="paper-figure plot-figure"><a aria-label="Enlarge the real-world success versus planning time plot" class="figure-link" data-lightbox="" href="assets/figures/real-success-time.webp"><img alt="Real-world success versus planning time: planning with a policy prior achieves higher success under constrained online planning budgets." height="1253" loading="lazy" src="assets/figures/real-success-time.webp" width="1554"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg></span></a><figcaption><strong>Success vs. planning time.</strong> Policy-guided initialization reaches strong performance with less search.</figcaption></figure>
+<figure class="paper-figure plot-figure"><a aria-label="Enlarge the real-world CEM planning cost plot" class="figure-link" data-lightbox="" href="assets/figures/real-planning-cost.webp"><img alt="Real-world planning cost across CEM iterations: policy-prior initialization starts at a lower cost and maintains lower cost during optimization." height="1252" loading="lazy" src="assets/figures/real-planning-cost.webp" width="1555"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg></span></a><figcaption><strong>Cost during CEM refinement.</strong> A useful behavioral prior improves local optimization.</figcaption></figure>
+</div>
+</div>
+</section>
+<section aria-labelledby="simulation-title" class="section container" id="simulation">
+<div class="section-heading centered">
+<h2 id="simulation-title">Simulation experiments</h2>
+<p>Controlled studies of task length, policy initialization, and the source of visual subgoals.</p>
+</div>
+<div class="simulation-experiments">
+<div class="benchmark-panel" id="pusht-panel">
+<div class="benchmark-heading"><div><h3>Push-T: scaling with task horizon</h3><p>30 held-out initial states per length bucket. The prediction horizon stays fixed as task duration increases.</p></div></div>
+<div aria-label="Push-T success results table" class="table-scroll" role="region" tabindex="0">
+<table><caption>Success by task length. PILOT uses the same 30-demonstration policy as the corresponding Policy only baseline.</caption><thead><tr><th scope="col">Method</th><th scope="col">Short</th><th scope="col">Medium</th><th scope="col">Long</th></tr></thead><tbody>
+<tr><th scope="row">Flat WM</th><td>33.3%</td><td>0.0%</td><td>0.0%</td></tr>
+<tr><th scope="row">Flat WM + prior</th><td>46.7%</td><td>0.0%</td><td>0.0%</td></tr>
+<tr><th scope="row">Policy only <span class="row-detail">5 demos</span></th><td>0.0%</td><td>0.0%</td><td>0.0%</td></tr>
+<tr><th scope="row">Policy only <span class="row-detail">10 demos</span></th><td>13.3%</td><td>3.3%</td><td>6.7%</td></tr>
+<tr><th scope="row">Policy only <span class="row-detail">20 demos</span></th><td>26.7%</td><td>16.7%</td><td>10.0%</td></tr>
+<tr><th scope="row">Policy only <span class="row-detail">30 demos</span></th><td>40.0%</td><td>33.3%</td><td>23.3%</td></tr>
+<tr><th scope="row">PILOT w/o prior</th><td>43.3%</td><td>36.7%</td><td>40.0%</td></tr>
+<tr class="highlight-row"><th scope="row">PILOT <span class="ours-tag">Ours</span></th><td><strong>80.0%</strong></td><td><strong>63.3%</strong></td><td><strong>53.3%</strong></td></tr>
+<tr class="oracle-row"><th scope="row">PILOT (oracle) <span class="row-detail">Expert subgoals</span></th><td>90.0%</td><td>93.3%</td><td>83.3%</td></tr>
+</tbody></table>
+</div>
+<figure class="paper-figure simulation-figure wide-figure"><a aria-label="Enlarge the Push-T subgoals and execution figure" class="figure-link" data-lightbox="" href="assets/figures/pusht-subgoals.webp"><img alt="Push-T predicted visual subgoals and simulator observations as the robot pushes a T-shaped block toward the target pose." height="510" loading="lazy" src="assets/figures/pusht-subgoals.webp" width="1374"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg></span></a><figcaption>Video-predicted visual subgoals (top) and simulator observations when each subgoal expires (bottom). <span class="figure-scroll-note">Swipe sideways to explore the figure on smaller screens.</span></figcaption></figure>
+<details class="additional-analysis"><summary>Planning efficiency and the strength of the policy prior <span aria-hidden="true">+</span></summary><div class="analysis-content"><p>Even a weak prior improves the success–planning-time trade-off. The 30-demonstration prior exceeds 60% medium-task success at 8 seconds per planning call. Policy initialization reaches in four iterations the cost that generic initialization reaches in ten, and finishes 24.1% lower under the same sampling budget.</p><div class="figure-grid"><figure class="paper-figure plot-figure"><a aria-label="Enlarge Push-T success versus planning time" class="figure-link" data-lightbox="" href="assets/figures/pusht-success-time.webp"><img alt="Push-T medium-task success versus planning time for generic initialization and policy priors trained on 10, 20, and 30 demonstrations. Curves are saturating-exponential fits." height="505" loading="lazy" src="assets/figures/pusht-success-time.webp" width="726"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg></span></a><figcaption>Stronger priors reach higher success with less planning time; curves are saturating-exponential fits.</figcaption></figure><figure class="paper-figure plot-figure"><a aria-label="Enlarge Push-T CEM planning cost" class="figure-link" data-lightbox="" href="assets/figures/pusht-planning-cost.webp"><img alt="Normalized CEM cost on identical planning problems from 90 held-out Push-T initial states, comparing policy initialization with generic initialization. Shading shows standard errors." height="505" loading="lazy" src="assets/figures/pusht-planning-cost.webp" width="726"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg></span></a><figcaption>Normalized objective on 90 held-out initial states; shading indicates standard errors.</figcaption></figure></div></div></details>
+<p class="benchmark-note">Short: expert episode length &lt; 100 steps. Medium: 100–129. Long: ≥ 130. Wan uses 100 Push-T video demonstrations; the main policy prior uses 30 action demonstrations.</p>
+</div>
+<div class="benchmark-panel" id="libero-panel">
+<div class="benchmark-heading"><div><h3>LIBERO-10: long-horizon manipulation</h3><p>Ten language-conditioned, two-stage tasks on a Franka arm. Five held-out initial states per task, 50 trials per method.</p></div></div>
+<div aria-label="LIBERO-10 success results table" class="table-scroll" role="region" tabindex="0"><table><caption>Aggregate success across the ten LIBERO tasks.</caption><thead><tr><th scope="col">Method</th><th scope="col">Success rate</th></tr></thead><tbody>
+<tr><th scope="row">Flat WM</th><td>0.0%</td></tr>
+<tr><th scope="row">Flat WM + prior</th><td>0.0%</td></tr>
+<tr><th scope="row">Policy only</th><td>38.0%</td></tr>
+<tr><th scope="row">PILOT w/o prior</th><td>22.0%</td></tr>
+<tr class="highlight-row"><th scope="row">PILOT <span class="ours-tag">Ours</span></th><td><strong>60.0%</strong></td></tr>
+<tr class="oracle-row"><th scope="row">PILOT (oracle) <span class="row-detail">Expert subgoals</span></th><td>88.0%</td></tr>
+</tbody></table></div>
+<figure class="paper-figure simulation-figure wide-figure"><a aria-label="Enlarge the LIBERO-10 subgoals and execution figure" class="figure-link" data-lightbox="" href="assets/figures/libero-subgoals.webp"><img alt="Predicted subgoals and simulator observations for the LIBERO-10 instruction: put the black bowl in the bottom drawer of the cabinet and close it." height="510" loading="lazy" src="assets/figures/libero-subgoals.webp" width="2754"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg></span></a><figcaption>“Put the black bowl in the bottom drawer of the cabinet and close it.” Predicted subgoals above, execution below. <span class="figure-scroll-note">Swipe sideways to explore the figure on smaller screens.</span></figcaption></figure>
+<p class="benchmark-note">Wan is fine-tuned on 20 videos per task; π<sub>0</sub> uses 5 demonstrations per task. Simulation uses a different adaptation regime from the matched real-world demonstration setting.</p>
+</div>
+</div>
+<p class="oracle-note"><strong>About the oracle reference.</strong> PILOT (oracle) replaces generated targets with frames from a held-out expert trajectory while keeping the policy, world model, and controller unchanged. It measures the effect of subgoal source and is not assumed to be a strict upper bound.</p>
+</section>
+<section aria-labelledby="limitations-title" class="section limitations-section"><div class="container narrow"><h2 id="limitations-title">Limitations and future work</h2><p>Unreachable generated targets, world-model errors, and a narrow policy prior can still cause failures. A fixed subgoal schedule can hinder recovery after delayed interactions or a failed grasp, and video generation and online optimization add latency. The real-world evaluation covers four tabletop tasks on a UR5e. Future directions include adaptive subgoal timing, more flexible search distributions, cheaper model rollouts, and broader task and embodiment generalization.</p></div></section>
+<section aria-labelledby="citation-title" class="section container narrow" id="citation">
+<div class="citation-heading"><div><h2 id="citation-title">BibTeX</h2></div><button class="copy-button" data-copy-citation="" hidden="" type="button"><svg class="icon"><use href="#icon-copy"></use></svg><span>Copy citation</span></button></div>
+<p class="citation-note">Anonymous manuscript. Citation details will be updated with the public release.</p>
+<pre class="citation-code"><code id="bibtex">@misc{pilot,
+  title = {PILOT: Guiding Long-Horizon World-Model Planning
+           with Visual Subgoals and Policy Priors
+           for Robotic Manipulation},
+  author = {Anonymous},
+  note = {Manuscript}
+}</code></pre>
+<p aria-live="polite" class="copy-status" role="status"></p>
+</section>
+</main>
+<footer class="site-footer"><div class="container footer-content"><p class="template-credit">Design inspired by the <a href="https://dream-steer.github.io/" rel="noopener" target="_blank">DreamSteer project page</a>.</p></div></footer>
+<dialog aria-label="Enlarged paper figure" class="figure-dialog"><button aria-label="Close enlarged figure" class="dialog-close" type="button"><svg class="icon"><use href="#icon-close"></use></svg></button><img alt="" class="dialog-image"/><p class="dialog-caption"></p><a class="dialog-original-link" href="assets/figures/method.webp" rel="noopener" target="_blank">Open full-resolution image ↗</a></dialog>
+</body>
+</html>
