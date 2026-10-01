@@ -13,7 +13,7 @@
 <title>PILOT | Long-Horizon World-Model Planning</title>
 <link href="assets/pilot-logo.png" rel="icon" type="image/png"/>
 <link as="font" crossorigin="anonymous" href="assets/fonts/noto-sans-latin.woff2" rel="preload" type="font/woff2"/>
-<link href="assets/style.css?v=8" rel="stylesheet"/>
+<link href="assets/style.css?v=9" rel="stylesheet"/>
 <script defer="" src="assets/media.js"></script>
 <script defer="" src="assets/main.js?v=2"></script>
 </head>
@@ -42,20 +42,15 @@
 <div class="resource-links">
 <a class="resource-button primary" href="assets/pilot-paper.pdf" rel="noopener" target="_blank"><svg class="icon"><use href="#icon-paper"></use></svg>Paper <span class="button-detail">PDF</span></a>
 <a aria-disabled="true" class="resource-button is-disabled" data-code-link=""><svg class="icon"><use href="#icon-code"></use></svg>Code <span class="button-detail" data-code-status="">Coming soon</span></a>
-<a class="resource-button" href="#experiments"><svg class="icon"><use href="#icon-film"></use></svg>Experiments</a>
 <a class="resource-button" data-arxiv-link="" hidden="" rel="noopener" target="_blank">arXiv <span aria-hidden="true">↗</span></a>
 </div>
 <div aria-label="Key results" class="hero-stats">
-<div class="stat"><strong>68.8<span>%</span></strong><span class="stat-label">Real-robot success</span><span class="stat-context">Four UR5e manipulation tasks</span></div>
+<div class="stat"><strong>68.8<span>%</span></strong><span class="stat-label">Real-robot success</span><span class="stat-context">Four tabletop pick-and-place tasks</span></div>
 <div class="stat"><strong>+30<span>pp</span></strong><span class="stat-label">Long Push-T improvement</span><span class="stat-context">Over direct execution of the same policy</span></div>
-<div class="stat"><strong>+22<span>pp</span></strong><span class="stat-label">LIBERO-10 improvement</span><span class="stat-context">Over direct execution of the same policy</span></div>
+<div class="stat"><strong>60<span>%</span></strong><span class="stat-label">Fewer CEM iterations</span><span class="stat-context">Same planning cost: 4 vs. 10 on Push-T</span></div>
 </div>
 </div></section>
-<section aria-labelledby="overview-title" class="section container" id="overview"><div class="idea-grid">
-<article class="idea"><span class="step-number purple">1</span><h3>See the intermediate steps</h3><p>A video model predicts visual subgoals from the current observation and task instruction.</p></article>
-<article class="idea"><span class="step-number green">2</span><h3>Start with a policy prior</h3><p>A learned policy initializes CEM around behaviorally plausible action sequences.</p></article>
-<article class="idea"><span class="step-number blue">3</span><h3>Refine before execution</h3><p>An action-conditioned world model evaluates candidates. The robot executes a short prefix and replans.</p></article>
-</div>
+<section aria-labelledby="overview-title" class="section container" id="overview">
 <div class="section-heading centered">
 <h2 id="overview-title">Visual subgoals for long-horizon planning</h2>
 <p>A distant goal tells the robot where to finish. Visual subgoals reveal how to get there,<br class="desktop-break"/> and a policy prior gives each local search a useful starting point.</p>
@@ -67,6 +62,11 @@
 </a>
 <figcaption>Temporal guidance breaks a distant objective into local targets. Behavioral guidance makes the search toward each target more efficient.</figcaption>
 </figure>
+<div class="idea-grid">
+<article class="idea"><span class="step-number purple">1</span><h3>See the intermediate steps</h3><p>A video model predicts visual subgoals from the current observation and task instruction.</p></article>
+<article class="idea"><span class="step-number green">2</span><h3>Start with a policy prior</h3><p>A learned policy initializes CEM around behaviorally plausible action sequences.</p></article>
+<article class="idea"><span class="step-number blue">3</span><h3>Refine before execution</h3><p>An action-conditioned world model evaluates candidates. The robot executes a short prefix and replans.</p></article>
+</div>
 </section>
 <section aria-labelledby="abstract-title" class="abstract-band" id="abstract">
 <div class="container narrow">
@@ -96,7 +96,7 @@
 <section aria-labelledby="experiments-title" class="section section-tinted" id="experiments">
 <div class="container">
 <div class="section-heading centered">
-<h2 id="experiments-title">Four tasks. One planning framework.</h2>
+<h2 id="experiments-title">Four Real-World Tasks</h2>
 <p>Long-horizon tabletop manipulation on a UR5e with a fixed RGB camera.</p>
 </div>
 <div class="task-grid">
@@ -129,7 +129,7 @@
 </section>
 <section aria-labelledby="results-title" class="section container" id="results">
 <div class="section-heading centered">
-<h2 id="results-title">Better guidance. More successful manipulation.</h2>
+<h2 id="results-title">Real-World Experimental Results</h2>
 <p>20 trials per task, 80 trials per method. All world-model variants share the same short prediction horizon.</p>
 </div>
 <div class="results-summary">
@@ -143,7 +143,7 @@
 </div>
 <aside class="setup-summary">
 <a aria-label="Enlarge the real-world robot setup figure" class="figure-link" data-lightbox="" href="assets/figures/robot-setup.webp"><img alt="Real-world evaluation setup with a UR5e arm, a fixed RGB camera, and a tabletop manipulation workspace." height="1086" loading="lazy" src="assets/figures/robot-setup.webp" width="1448"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span></a>
-<p><strong>A matched task-specific demonstration budget.</strong> Wan and π<sub>0</sub> are fine-tuned on the same 40 successful demonstrations, 10 per task. World-model training additionally uses these demonstrations and approximately 5 hours of random-play interaction, alongside foundation-model pretraining.</p>
+<p><strong>Robot setup and tasks.</strong> A UR5e arm with a Robotiq 2F-85 gripper operates in a tabletop workspace, observed by a fixed RealSense L515 camera. The four tasks involve placing a cup into a bowl, a pencil case into a box, a bowl into a box, and one bowl into another.</p>
 </aside>
 </div><div aria-label="Real-world success results table" class="table-scroll" role="region" tabindex="0">
 <table>
@@ -210,12 +210,10 @@
 <tr class="oracle-row"><th scope="row">PILOT (oracle) <span class="row-detail">Expert subgoals</span></th><td>88.0%</td></tr>
 </tbody></table></div>
 <figure class="paper-figure simulation-figure wide-figure"><a aria-label="Enlarge the LIBERO-10 subgoals and execution figure" class="figure-link" data-lightbox="" href="assets/figures/libero-subgoals.webp"><img alt="Predicted subgoals and simulator observations for the LIBERO-10 instruction: put the black bowl in the bottom drawer of the cabinet and close it." height="510" loading="lazy" src="assets/figures/libero-subgoals.webp" width="2754"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg></span></a><figcaption>“Put the black bowl in the bottom drawer of the cabinet and close it.” Predicted subgoals above, execution below. <span class="figure-scroll-note">Swipe sideways to explore the figure on smaller screens.</span></figcaption></figure>
-<p class="benchmark-note">Wan is fine-tuned on 20 videos per task; π<sub>0</sub> uses 5 demonstrations per task. Simulation uses a different adaptation regime from the matched real-world demonstration setting.</p>
 </div>
 </div>
 <p class="oracle-note"><strong>About the oracle reference.</strong> PILOT (oracle) replaces generated targets with frames from a held-out expert trajectory while keeping the policy, world model, and controller unchanged. It measures the effect of subgoal source and is not assumed to be a strict upper bound.</p>
 </section>
-<section aria-labelledby="limitations-title" class="section limitations-section"><div class="container narrow"><h2 id="limitations-title">Limitations and future work</h2><p>Unreachable generated targets, world-model errors, and a narrow policy prior can still cause failures. A fixed subgoal schedule can hinder recovery after delayed interactions or a failed grasp, and video generation and online optimization add latency. The real-world evaluation covers four tabletop tasks on a UR5e. Future directions include adaptive subgoal timing, more flexible search distributions, cheaper model rollouts, and broader task and embodiment generalization.</p></div></section>
 <section aria-labelledby="citation-title" class="section container narrow" id="citation">
 <div class="citation-heading"><div><h2 id="citation-title">BibTeX</h2></div><button class="copy-button" data-copy-citation="" hidden="" type="button"><svg class="icon"><use href="#icon-copy"></use></svg><span>Copy citation</span></button></div>
 <p class="citation-note">Anonymous manuscript. Citation details will be updated with the public release.</p>
