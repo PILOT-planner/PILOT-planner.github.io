@@ -2,6 +2,28 @@
 
 参考 [DreamSteer 项目网页](https://dream-steer.github.io/) 的学术项目页面结构，使用提供的 PDF 和 LaTeX 素材制作。页面为英文，纯 HTML/CSS/JavaScript，无需 Node.js、安装依赖或构建，可用于 GitHub Pages 等静态托管。
 
+## 目录结构
+
+```text
+PILOT_website/
+├── index.html          # 网页入口
+├── assets/             # 网页实际使用的图片、字体、PDF、视频和代码
+├── scripts/            # 检查和导出工具
+├── README.md
+├── .nojekyll           # GitHub Pages 直接发布静态文件
+├── .gitignore
+├── local/              # 本地原始素材与旧资源，不提交
+│   ├── inputs/         # paper/、videos/、logo/ 原始输入
+│   ├── paper-source/   # 解压后的 LaTeX
+│   └── unused-assets/  # 已停用的旧图片
+└── build/              # 本地生成文件，不提交
+    ├── site/           # 纯网页发布目录
+    ├── pilot-website.zip
+    └── previews/       # 浏览器截图
+```
+
+`local/` 和 `build/` 已加入 `.gitignore`。原始视频压缩包、LaTeX 包、重复输入和截图留在本地；网页用压缩视频和论文 PDF 位于 `assets/`，随 Git 上传。克隆仓库后即可直接预览网页，不依赖本地原始素材。
+
 ## 本地预览
 
 在此目录运行：
@@ -57,7 +79,7 @@ window.PILOT_CONFIG = {
 - `assets/videos/`：网页用 MP4 演示视频、真实视频封面与素材来源说明
 - `assets/figures/`：由论文素材转换的 WebP 图片
 - `assets/pilot-paper.pdf`：用户提供的 PDF 副本
-- `paper-source/`：完整解压的 LaTeX 包，保留原始内容
+- `local/paper-source/`：完整解压的 LaTeX 包，仅在本地保留
 - `scripts/check_site.py`：静态文件、内部链接、图像和实验数据检查
 - `scripts/export_site.py`：导出仅包含网页资源的发布包
 
@@ -68,6 +90,25 @@ python3 scripts/check_site.py
 python3 scripts/export_site.py
 ```
 
-第二条命令生成 `dist/` 和 `pilot-website.zip`，只含网页和网页必需素材，不包含原始 LaTeX 压缩包、LaTeX 源文件或生成日志。将 `dist/` 的内容上传至任意静态托管服务，或放到 GitHub Pages 的发布目录即可。所有资源使用相对路径，支持仓库子路径部署。
+检查脚本在本地存在原始稿件时还会核对 PDF 和 LaTeX 表格；克隆仓库后会继续检查网页资源与内部链接。
+
+第二条命令重新生成 `build/site/` 和 `build/pilot-website.zip`，只含网页和网页必需素材，不包含原始压缩包、LaTeX 源文件或截图。导出时会清理上次的 `build/site/`，避免旧资源残留。将 `build/site/` 的内容上传至任意静态托管服务即可。所有资源使用相对路径，支持仓库子路径部署。
+
+## 推送 GitHub 和发布 Pages
+
+最新网页位于 `pilot-ds-layout` 分支。当前尚未配置 GitHub remote，创建一个空仓库后执行：
+
+```bash
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git push -u origin pilot-ds-layout
+```
+
+如需把已保存的三个版本标签一起上传：
+
+```bash
+git push origin pilot-ds pilot-ori pilot-ds-plus
+```
+
+在 GitHub 仓库的 **Settings → Pages** 中，Source 选择 **Deploy from a branch**，分支选 **pilot-ds-layout**，目录选 **/(root)**，然后保存。根目录的 `index.html`、`assets/` 和 `.nojekyll` 可直接用于发布，无需上传 `build/`。配置方式参见 [GitHub Pages 官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
 
 真实机器人统计、Push-T 与 LIBERO 数值均来自所提供稿件。

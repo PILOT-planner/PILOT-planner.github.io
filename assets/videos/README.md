@@ -1,7 +1,7 @@
 # Real-world PILOT demonstrations
 
-Source archive: `wm_planning_demo-20261001T064544Z-1-001.zip`.
-The original archive is preserved in the project root and excluded from the public website bundle.
+Source archive: `local/inputs/videos/wm_planning_demo-20261001T064544Z-1-001.zip`.
+The original archive is preserved locally and excluded from Git and the public website bundle.
 
 | Task | Original member inside archive | Website video |
 | --- | --- | --- |

@@ -9,13 +9,15 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main():
-    output = ROOT / "dist"
-    files = [ROOT / "index.html"] + sorted(
+    output = ROOT / "build/site"
+    files = [ROOT / "index.html", ROOT / ".nojekyll"] + sorted(
         file for file in (ROOT / "assets").rglob("*")
         if file.is_file() and file.suffix != ".md"
     )
-    output.mkdir(exist_ok=True)
-    archive = ROOT / "pilot-website.zip"
+    if output.exists():
+        shutil.rmtree(output)
+    output.mkdir(parents=True)
+    archive = ROOT / "build/pilot-website.zip"
     with ZipFile(archive, "w", ZIP_DEFLATED) as bundle:
         for file in files:
             relative = file.relative_to(ROOT)

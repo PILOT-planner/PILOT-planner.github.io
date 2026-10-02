@@ -4,13 +4,17 @@
 /.codex/
 
 # Original inputs and extracted manuscript materials
+/local/
 /RA_L_PILOT_submission*.pdf
 /*.zip
 /963-9638141_pilot-project-icon.png
 /paper-source/
 
 # Generated output and browser previews
+/build/
 /dist/
 /previews/
 __pycache__/
 *.pyc
+.DS_Store
+Thumbs.db

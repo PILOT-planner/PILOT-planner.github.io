@@ -94,12 +94,12 @@ def main():
     pdf = ROOT / "assets/pilot-paper.pdf"
     if not pdf.is_file() or pdf.read_bytes()[:5] != b"%PDF-":
         errors.append("Missing or invalid paper PDF")
-    original = ROOT / "RA_L_PILOT_submission (3).pdf"
+    original = ROOT / "local/inputs/paper/RA_L_PILOT_submission (3).pdf"
     if original.is_file() and pdf.is_file():
         if sha256(original.read_bytes()).digest() != sha256(pdf.read_bytes()).digest():
             errors.append("Download PDF differs from the supplied manuscript")
 
-    source = ROOT / "paper-source/text/04-experiments.tex"
+    source = ROOT / "local/paper-source/text/04-experiments.tex"
     number = r"\d+/\d+|\d+\.\d+"
     if source.is_file():
         latex = re.sub(r"(?m)(?<!\\)%.*$", "", source.read_text())
