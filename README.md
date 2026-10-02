@@ -96,11 +96,11 @@ python3 scripts/export_site.py
 
 ## 推送 GitHub 和发布 Pages
 
-最新网页位于 `pilot-ds-layout` 分支。当前尚未配置 GitHub remote，创建一个空仓库后执行：
+最新网页位于 `main` 分支。当前尚未配置 GitHub remote，创建一个空仓库后执行：
 
 ```bash
 git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-git push -u origin pilot-ds-layout
+git push -u origin main
 ```
 
 如需把已保存的三个版本标签一起上传：
@@ -109,6 +109,6 @@ git push -u origin pilot-ds-layout
 git push origin pilot-ds pilot-ori pilot-ds-plus
 ```
 
-在 GitHub 仓库的 **Settings → Pages** 中，Source 选择 **Deploy from a branch**，分支选 **pilot-ds-layout**，目录选 **/(root)**，然后保存。根目录的 `index.html`、`assets/` 和 `.nojekyll` 可直接用于发布，无需上传 `build/`。配置方式参见 [GitHub Pages 官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
+在 GitHub 仓库的 **Settings → Pages** 中，Source 选择 **Deploy from a branch**，分支选 **main**，目录选 **/(root)**，然后保存。根目录的 `index.html`、`assets/` 和 `.nojekyll` 可直接用于发布，无需上传 `build/`。配置方式参见 [GitHub Pages 官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
 
 真实机器人统计、Push-T 与 LIBERO 数值均来自所提供稿件。
