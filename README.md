@@ -1,59 +1,61 @@
-# PILOT 论文项目网页
+# PILOT Project Website
 
-参考 [DreamSteer 项目网页](https://dream-steer.github.io/) 的学术项目页面结构，使用提供的 PDF 和 LaTeX 素材制作。页面为英文，纯 HTML/CSS/JavaScript，无需 Node.js、安装依赖或构建，可用于 GitHub Pages 等静态托管。
+An academic project website for PILOT, built from the supplied PDF and LaTeX materials, with a layout inspired by [DreamSteer](https://dream-steer.github.io/). The site uses plain HTML, CSS, and JavaScript. It requires no Node.js dependencies or build step and can be hosted on GitHub Pages or any static hosting service.
 
-## 目录结构
+## Directory Structure
 
 ```text
 PILOT_website/
-├── index.html          # 网页入口
-├── assets/             # 网页实际使用的图片、字体、PDF、视频和代码
-├── scripts/            # 检查和导出工具
+├── index.html          # Website entry point
+├── assets/             # Images, fonts, PDF, videos, styles, and scripts
+├── scripts/            # Validation and export tools
 ├── README.md
-├── .nojekyll           # GitHub Pages 直接发布静态文件
+├── .nojekyll           # Serve static files directly on GitHub Pages
 ├── .gitignore
-├── local/              # 本地原始素材与旧资源，不提交
-│   ├── inputs/         # paper/、videos/、logo/ 原始输入
-│   ├── paper-source/   # 解压后的 LaTeX
-│   └── unused-assets/  # 已停用的旧图片
-└── build/              # 本地生成文件，不提交
-    ├── site/           # 纯网页发布目录
+├── local/              # Original materials and archived assets; not tracked
+│   ├── inputs/         # Original paper, video, and logo inputs
+│   ├── paper-source/   # Extracted LaTeX source
+│   └── unused-assets/  # Retired images
+└── build/              # Generated files; not tracked
+    ├── site/           # Website-only release directory
     ├── pilot-website.zip
-    └── previews/       # 浏览器截图
+    └── previews/       # Browser screenshots
 ```
 
-`local/` 和 `build/` 已加入 `.gitignore`。原始视频压缩包、LaTeX 包、重复输入和截图留在本地；网页用压缩视频和论文 PDF 位于 `assets/`，随 Git 上传。克隆仓库后即可直接预览网页，不依赖本地原始素材。
+`local/` and `build/` are excluded from Git. Original archives, extracted LaTeX, duplicate inputs, and screenshots remain local. Compressed demonstration videos and the paper PDF are included in `assets/` and committed to Git. A fresh clone can display the website without the original materials.
 
-## 本地预览
+## Local Preview
 
-在此目录运行：
+Run from the repository root:
 
 ```bash
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-浏览器打开 <http://localhost:8000>。也可以直接打开 `index.html`；使用本地 HTTP 服务可以获得更完整的剪贴板功能。
+Open <http://localhost:8000>. You can also open `index.html` directly; a local HTTP server provides more complete clipboard support.
 
-## 页面内容
+## Website Content
 
-- 论文标题、Anonymous 署名、论文 PDF 下载和关键结果
-- 核心动机、完整摘要、方法架构和控制设置
-- 四个 UR5e 任务的真实机器人演示视频、视频封面和子目标/执行对比
-- 真实机器人结果、逐任务成功数、95% Wilson 置信区间、机器人设置
-- 规划效率图、支持标签切换的 Push-T 和 LIBERO-10 完整结果
-- 可复制 BibTeX、可放大的论文插图
-- 手机/平板布局、键盘可操作导航和图片弹窗、无 JavaScript 基础阅读
+- Paper title, anonymous authorship, PDF download, and key results.
+- Motivation, abstract, method diagram, and control settings.
+- Four real-world UR5e task demonstrations, video posters, and subgoal/execution comparisons.
+- Real-world results, per-task success counts, 95% Wilson confidence intervals, and robot setup.
+- Planning efficiency plots and tabbed Push-T and LIBERO-10 results.
+- Copyable BibTeX and enlarged paper figures.
+- Responsive layouts, keyboard navigation, and image/video dialogs. Basic reading and native video playback also work without JavaScript.
 
-内容采用居中且有最大宽度的布局：桌面主体宽度为屏幕的 84%，上限 1200px；论文标题上限 1120px，摘要、引用和关键指标区上限 1000px。1440px 屏幕上主体约占 83%，1920px 屏幕上约占 63%，更宽的显示器上内容不会继续拉长。平板两侧各留 24px，手机各留 20px。桌面正文随屏幕从 22px 增大到 28px，图注 21–26px、结果表格 21px；手机正文和图注 20px、表格 19px。排版参考 DreamSteer：连贯的论文标题、轻柔渐变标题区、深色资源按钮、首张示意图下方的三项核心贡献卡片、单栏摘要与连续的论文内容。真实机器人任务在桌面以四张视频卡片横排展示，平板使用两列、手机使用单列。真实机器人结果上方采用成功率条形图与实验设置图文的两列布局；较小屏幕恢复单列。Push-T 与 LIBERO-10 采用标签切换，支持鼠标和方向键操作；无 JavaScript 时两组结果都直接展示。手机指标纵向排列，图表在较窄屏幕上切换为单列。宽幅子目标对比图支持手机横向滑动，图片弹窗提供全分辨率原图链接。左上角图标及 favicon 使用用户提供的 PNG 原图。
+The desktop content is centered at 84% of the viewport width, capped at 1200px. The title is capped at 1120px; the abstract, citation, and key metrics are capped at 1000px. Tablet margins are 24px on each side, and mobile margins are 20px. Desktop body text ranges from 22px to 28px, captions from 21px to 26px, and tables use 21px text. Mobile body text and captions use 20px, with 19px table text.
 
-## 视频和资源链接
+The layout includes a continuous paper title, a soft gradient hero, dark resource buttons, three contribution cards below the first figure, and a single-column abstract. Task videos use four columns on desktop, two on tablets, and one on small screens. The real-world results pair a success chart with the robot setup and switch to a single column on smaller screens. Push-T and LIBERO-10 use tabs with keyboard support; both remain visible without JavaScript. Wide figures support horizontal scrolling on mobile, and figure dialogs link to full-resolution images. The header icon and favicon use the supplied PNG logo.
 
-编辑 [assets/media.js](assets/media.js)：
+## Videos and Resource Links
+
+Edit [assets/media.js](assets/media.js):
 
 ```javascript
 window.PILOT_CONFIG = {
-  codeUrl: "",  // 代码仓库链接，留空时显示 Coming soon
-  arxivUrl: "", // arXiv 链接，留空时不显示按钮
+  codeUrl: "",  // Code repository URL; empty shows Coming soon
+  arxivUrl: "", // arXiv URL; empty hides the button
   videos: {
     "cup": "assets/videos/cup.mp4",
     "pencil-case": "assets/videos/pencil-case.mp4",
@@ -63,52 +65,60 @@ window.PILOT_CONFIG = {
 };
 ```
 
-四个演示视频已放入 `assets/videos/`，来源为用户提供压缩包中各任务的 `Ours.mp4` / `bowlBox_ours.mp4`。完整保留动作过程，以 4 倍速、960px 宽、30fps、H.264 编码并移除音轨，使用 faststart 支持边下载边播放。单个文件约 0.4–1.0MB，四个合计约 2.6MB。封面取自真实视频帧。具体来源和压缩参数见 [assets/videos/README.md](assets/videos/README.md)。
+The four demonstrations in `assets/videos/` come from the task-specific `Ours.mp4` / `bowlBox_ours.mp4` files in the supplied archive. They preserve the full action sequence, encoded at 4x speed, 960px width, and 30fps using H.264 without audio. Faststart enables playback before the entire file downloads. Individual files are approximately 0.4-1.0MB, totaling about 2.6MB. Posters are actual video frames. See [assets/videos/README.md](assets/videos/README.md) for source mappings and encoding parameters.
 
-每个视频右上角显示 `×4` 速度标记。播放器带控制栏并支持手机内联播放；点击 `Enlarge` 在页面内打开最大 960px 的播放器弹窗，不进入全屏。弹窗同样显示速度标记，保留播放进度；支持关闭按钮、Esc 和点击背景关闭，关闭后返回原播放器。启用 JavaScript 时，播放一个任务会暂停其他任务，加载失败会退回视频封面。无 JavaScript 时原生播放器仍可使用。更换视频时同步更新 `assets/media.js` 和 `index.html` 中的路径及播放速度说明。也支持直接指向视频文件的 HTTPS URL；网页链接（例如 YouTube 播放页面）需要单独集成嵌入播放器。
+Each video displays a `×4` badge in the upper-right corner. Select `Enlarge` to open an in-page player, capped at 960px, that retains the playback position and speed badge. Close it with the close button, Escape, or a click on the backdrop. Playback position returns to the inline player. With JavaScript enabled, playing one demonstration pauses the others, and a failed video falls back to its poster. Native video playback remains available without JavaScript.
 
-稿件目前使用 Anonymous 署名，所以没有添加未经确认的作者、单位、会议录用信息、arXiv 编号或正式发表年份。公开时可在 `index.html` 中更新 `.authors` 和 `#bibtex`。
+When replacing a video, update the paths in both `assets/media.js` and `index.html`, along with the speed labels and description. Direct HTTPS video URLs are supported. Video hosting pages, such as YouTube watch pages, require a separate embedded player.
 
-## 文件说明
+The manuscript currently uses anonymous authorship. Update `.authors` and `#bibtex` in `index.html` when public authorship and publication details are available.
 
-- `index.html`：网页内容和所有实验数值
-- `assets/style.css`：排版、响应式布局
-- `assets/fonts/`：本地 Noto Sans 开源字体与 OFL 许可证，无需访问外部字体服务
-- `assets/main.js`：视频接入、图片放大、引用复制
-- `assets/media.js`：视频/代码/arXiv 配置
-- `assets/videos/`：网页用 MP4 演示视频、真实视频封面与素材来源说明
-- `assets/figures/`：由论文素材转换的 WebP 图片
-- `assets/pilot-paper.pdf`：用户提供的 PDF 副本
-- `local/paper-source/`：完整解压的 LaTeX 包，仅在本地保留
-- `scripts/check_site.py`：静态文件、内部链接、图像和实验数据检查
-- `scripts/export_site.py`：导出仅包含网页资源的发布包
+## File Reference
 
-## 检查与发布包
+- `index.html`: Website content and experimental results.
+- `assets/style.css`: Typography, layout, and responsive styles.
+- `assets/fonts/`: Local Noto Sans fonts and the OFL license.
+- `assets/main.js`: Video integration, dialogs, tabs, and citation copying.
+- `assets/media.js`: Video, code, and arXiv configuration.
+- `assets/videos/`: Compressed MP4 demonstrations, posters, and provenance notes.
+- `assets/figures/`: WebP figures converted from the paper materials.
+- `assets/pilot-paper.pdf`: An exact copy of the supplied paper PDF.
+- `local/paper-source/`: Extracted LaTeX source, retained locally.
+- `scripts/check_site.py`: Asset, link, image, PDF, and result-table validation.
+- `scripts/export_site.py`: Website-only release export.
+
+## Validation and Release Export
 
 ```bash
 python3 scripts/check_site.py
 python3 scripts/export_site.py
 ```
 
-检查脚本在本地存在原始稿件时还会核对 PDF 和 LaTeX 表格；克隆仓库后会继续检查网页资源与内部链接。
+When original materials are available locally, validation also compares the PDF and numerical tables against the manuscript. In a fresh clone, it checks website assets and internal links without requiring the original materials. Pillow is optional and enables image-dimension validation.
 
-第二条命令重新生成 `build/site/` 和 `build/pilot-website.zip`，只含网页和网页必需素材，不包含原始压缩包、LaTeX 源文件或截图。导出时会清理上次的 `build/site/`，避免旧资源残留。将 `build/site/` 的内容上传至任意静态托管服务即可。所有资源使用相对路径，支持仓库子路径部署。
+The export command regenerates `build/site/` and `build/pilot-website.zip`, containing only the website and its required assets. It clears the previous `build/site/` to remove obsolete resources. Upload the contents of `build/site/` to a static hosting service. All resource paths are relative and support deployment under a repository subpath.
 
-## 推送 GitHub 和发布 Pages
+## GitHub and GitHub Pages
 
-最新网页位于 `main` 分支。当前尚未配置 GitHub remote，创建一个空仓库后执行：
+The repository is [morning-star-7/PILOT](https://github.com/morning-star-7/PILOT), and the current website is on `main`. To clone it:
 
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-git push -u origin main
+git clone https://github.com/morning-star-7/PILOT.git
+cd PILOT
 ```
 
-如需把已保存的三个版本标签一起上传：
+After committing changes, push the current branch:
+
+```bash
+git push origin main
+```
+
+To upload the three saved version tags as well:
 
 ```bash
 git push origin pilot-ds pilot-ori pilot-ds-plus
 ```
 
-在 GitHub 仓库的 **Settings → Pages** 中，Source 选择 **Deploy from a branch**，分支选 **main**，目录选 **/(root)**，然后保存。根目录的 `index.html`、`assets/` 和 `.nojekyll` 可直接用于发布，无需上传 `build/`。配置方式参见 [GitHub Pages 官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
+In **Settings → Pages**, select **Deploy from a branch**, choose **main** and **/(root)**, then save. The root `index.html`, `assets/`, and `.nojekyll` support direct publishing; generated files in `build/` are not needed. See the [GitHub Pages documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 
-真实机器人统计、Push-T 与 LIBERO 数值均来自所提供稿件。
+All real-world, Push-T, and LIBERO results are taken from the supplied manuscript.
