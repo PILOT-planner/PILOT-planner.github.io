@@ -136,9 +136,14 @@ figcaption strong { color: #333; font-weight: 600; }
 .task-info h3 { font-size: 25px; margin-top: 6px; }
 .task-rate { display: block; color: var(--ink); font-size: 21px; font-weight: 600; margin-top: 12px; }
 .task-rate > span { font-size: 19px; }
-.task-media { position: relative; aspect-ratio: 5 / 4; overflow: hidden; background: #f2f4f7; }
+.task-media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #f2f4f7; }
 .task-media > img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
 .task-media > video { width: 100%; height: 100%; display: block; object-fit: contain; background: #101722; }
+.video-speed { position: absolute; top: 10px; right: 10px; padding: 3px 9px; border-radius: 5px; background: #101722d9; color: #fff; font-size: 17px; font-weight: 650; line-height: 1.6; pointer-events: none; }
+.video-enlarge { position: absolute; top: 10px; left: 10px; display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 4px 9px; border: 1px solid #ffffff55; border-radius: 5px; background: #101722d9; color: #fff; font-size: 16px; line-height: 1.5; }
+.video-enlarge:hover { background: #101722; }
+.video-enlarge .icon { width: 16px; height: 16px; }
+.task-media video::-webkit-media-controls-fullscreen-button, .video-dialog video::-webkit-media-controls-fullscreen-button { display: none; }
 .video-placeholder { position: absolute; inset: auto 0 0; display: flex; justify-content: center; align-items: center; gap: 8px; padding: 30px 12px 14px; background: linear-gradient(transparent, #101722cb); color: #fff; font-size: 19px; }
 .video-placeholder .icon { width: 19px; height: 19px; }
 .media-note { margin-top: 23px; color: var(--muted); font-size: var(--small-size); }
@@ -219,6 +224,13 @@ tbody th { font-weight: 500; }
 .dialog-image { width: 100%; max-height: calc(100dvh - 230px); object-fit: contain; }
 .dialog-caption { font-size: 20px; color: var(--muted); line-height: 1.7; margin-top: 14px; text-align: center; }
 .dialog-original-link { display: block; width: fit-content; font-size: 19px; margin: 16px auto 0; text-decoration: underline; text-underline-offset: 4px; }
+.video-dialog { width: min(960px, calc(100% - 64px)); max-width: none; max-height: calc(100dvh - 64px); padding: 20px; border: 0; border-radius: 12px; background: #fff; box-shadow: 0 20px 90px #0003; }
+.video-dialog::backdrop { background: #111b2ba6; }
+.video-dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.video-dialog-heading h3 { font-size: 23px; }
+.video-dialog .dialog-close { position: static; flex-shrink: 0; }
+.video-dialog-media { position: relative; overflow: hidden; border-radius: 8px; background: #101722; }
+.video-dialog video { display: block; width: 100%; max-height: calc(100dvh - 180px); object-fit: contain; }
 
 @media (max-width: 1050px) {
   .container { width: calc(100% - 48px); }
@@ -305,7 +317,7 @@ tbody th { font-weight: 500; }
   .task-rate { font-size: 20px; }
   .task-rate > span { font-size: 18px; }
   .video-placeholder { font-size: 19px; }
-  .task-media { aspect-ratio: 5 / 4; }
+  .task-media { aspect-ratio: 16 / 9; }
   .success-chart { padding: 20px; }
   .chart-title { font-size: 23px; }
   .bar-row { grid-template-columns: 123px minmax(0, 1fr) 60px; gap: 8px; font-size: 18px; margin-block: 20px; }
@@ -338,6 +350,10 @@ tbody th { font-weight: 500; }
   .figure-dialog { width: calc(100% - 24px); max-height: calc(100dvh - 24px); padding: 52px 14px 20px; }
   .dialog-image { max-height: calc(100dvh - 280px); }
   .dialog-caption { font-size: 19px; text-align: left; }
+  .video-dialog { width: calc(100% - 32px); max-height: calc(100dvh - 32px); padding: 12px; }
+  .video-dialog-heading { gap: 10px; margin-bottom: 10px; }
+  .video-dialog-heading h3 { font-size: 21px; }
+  .video-dialog video { max-height: calc(100dvh - 140px); }
 }
 @media (max-width: 480px) {
   .task-grid { grid-template-columns: 1fr; gap: 24px; }
