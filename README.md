@@ -100,11 +100,11 @@ The export command regenerates `build/site/` and `build/pilot-website.zip`, cont
 
 ## GitHub and GitHub Pages
 
-The repository is [morning-star-7/PILOT](https://github.com/morning-star-7/PILOT), and the current website is on `main`. To clone it:
+The repository is [PILOT-planner/PILOT-planner](https://github.com/PILOT-planner/PILOT-planner), and the current website is on `main`. To clone it:
 
 ```bash
-git clone https://github.com/morning-star-7/PILOT.git
-cd PILOT
+git clone https://github.com/PILOT-planner/PILOT-planner.git
+cd PILOT-planner
 ```
 
 After committing changes, push the current branch:
