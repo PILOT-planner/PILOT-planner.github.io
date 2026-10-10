@@ -29,6 +29,23 @@
     arxivLink.hidden = false;
   }
 
+  // The full abstract remains readable when JavaScript is unavailable.
+  const abstractToggle = document.querySelector("[data-abstract-toggle]");
+  if (abstractToggle) {
+    const abstractParts = abstractToggle.getAttribute("aria-controls").split(" ")
+      .map((id) => document.getElementById(id));
+    const setAbstractExpanded = (expanded) => {
+      abstractParts.forEach((part) => { part.hidden = !expanded; });
+      abstractToggle.setAttribute("aria-expanded", String(expanded));
+      abstractToggle.querySelector("span").textContent = expanded ? "Show less" : "Show more";
+    };
+    setAbstractExpanded(false);
+    abstractToggle.hidden = false;
+    abstractToggle.addEventListener("click", () => {
+      setAbstractExpanded(abstractToggle.getAttribute("aria-expanded") !== "true");
+    });
+  }
+
   const videoDialog = document.querySelector(".video-dialog");
   const enlargedVideo = videoDialog?.querySelector("video");
   let activeVideo;

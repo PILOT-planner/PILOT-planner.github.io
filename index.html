@@ -6,16 +6,17 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="#ffffff" name="theme-color"/>
 <meta content="PILOT guides long-horizon robotic manipulation with video-predicted visual subgoals, policy-initialized local optimization, and an action-conditioned world model." name="description"/>
+<meta content="Yang Liu, Hanchen Cui, Karthik Desingh" name="author"/>
 <meta content="website" property="og:type"/>
-<meta content="PILOT · Visual Subgoals and Policy Priors for Robotic Manipulation" property="og:title"/>
+<meta content="PILOT: Guiding Long-Horizon World-Model Planning for Robot Manipulation with Visual Subgoals and Policy Priors" property="og:title"/>
 <meta content="Long-horizon task guidance. Short-horizon action refinement. 68.8% success across four real-world UR5e manipulation tasks." property="og:description"/>
-<meta content="assets/figures/method.webp" property="og:image"/>
-<title>PILOT | Long-Horizon World-Model Planning</title>
+<meta content="assets/figures/method.webp?v=2" property="og:image"/>
+<title>PILOT: Guiding Long-Horizon World-Model Planning for Robot Manipulation with Visual Subgoals and Policy Priors</title>
 <link href="assets/pilot-logo.png" rel="icon" type="image/png"/>
 <link as="font" crossorigin="anonymous" href="assets/fonts/noto-sans-latin.woff2" rel="preload" type="font/woff2"/>
-<link href="assets/style.css?v=11" rel="stylesheet"/>
+<link href="assets/style.css?v=17" rel="stylesheet"/>
 <script defer="" src="assets/media.js?v=3"></script>
-<script defer="" src="assets/main.js?v=4"></script>
+<script defer="" src="assets/main.js?v=5"></script>
 </head>
 <body>
 <svg aria-hidden="true" class="icon-definitions" xmlns="http://www.w3.org/2000/svg">
@@ -37,8 +38,10 @@
 </header>
 <main id="main">
 <section aria-labelledby="paper-title" class="hero"><div class="container">
-<h1 id="paper-title"><span class="hero-name">PILOT: </span><span class="hero-title">Guiding <span class="title-phrase">Long-Horizon</span> <span class="title-phrase">World-Model</span> Planning with Visual Subgoals and Policy Priors for Robotic Manipulation</span></h1><p class="authors">Anonymous</p>
-<p class="acronym"><strong>P</strong>olicy-<strong>I</strong>nitialized <strong>L</strong>ocal <strong>O</strong>ptimization with <strong>T</strong>emporal subgoals</p>
+<h1 id="paper-title"><span class="hero-name">PILOT: </span><span class="hero-title">Guiding <span class="title-phrase">Long-Horizon</span> <span class="title-phrase">World-Model</span> Planning for Robot Manipulation with Visual Subgoals and Policy Priors</span></h1>
+<p class="authors"><span class="author-name">Yang Liu<sup>*</sup></span>, <a class="author-name" href="https://morning-star-7.github.io/" rel="noopener" target="_blank">Hanchen Cui<sup>*</sup></a>, and <a class="author-name" href="https://karthikdesingh.com/" rel="noopener" target="_blank">Karthik Desingh</a></p>
+<p class="author-contribution">* denotes equal contribution</p>
+<p class="affiliation">University of Minnesota Twin Cities</p>
 <div class="resource-links">
 <a class="resource-button primary" href="assets/pilot-paper.pdf" rel="noopener" target="_blank"><svg class="icon"><use href="#icon-paper"></use></svg>Paper <span class="button-detail">PDF</span></a>
 <a aria-disabled="true" class="resource-button is-disabled" data-code-link=""><svg class="icon"><use href="#icon-code"></use></svg>Code <span class="button-detail" data-code-status="">Coming soon</span></a>
@@ -47,7 +50,7 @@
 <div aria-label="Key results" class="hero-stats">
 <div class="stat"><strong>68.8<span>%</span></strong><span class="stat-label">Real-robot success</span><span class="stat-context">Four tabletop pick-and-place tasks</span></div>
 <div class="stat"><strong>+30<span>pp</span></strong><span class="stat-label">Long Push-T improvement</span><span class="stat-context">Over direct execution of the same policy</span></div>
-<div class="stat"><strong>60<span>%</span></strong><span class="stat-label">Fewer CEM iterations</span><span class="stat-context">Same planning cost: 4 vs. 10 on Push-T</span></div>
+<div class="stat"><strong aria-label="60 percent decrease"><span aria-hidden="true" class="stat-direction">↓</span>60<span>%</span></strong><span class="stat-label">Fewer CEM iterations</span><span class="stat-context">Same planning cost: 4 vs. 10 on Push-T</span></div>
 </div>
 </div></section>
 <section aria-labelledby="overview-title" class="section container" id="overview">
@@ -56,8 +59,8 @@
 <p>A distant goal tells the robot where to finish. Visual subgoals reveal how to get there,<br class="desktop-break"/> and a policy prior gives each local search a useful starting point.</p>
 </div>
 <figure class="paper-figure motivation-figure">
-<a aria-label="Enlarge the PILOT motivation figure" class="figure-link" data-lightbox="" href="assets/figures/motivation.webp">
-<img alt="Visual subgoals guide a robot through intermediate stages of a non-convex planning landscape, while a policy prior concentrates local action search around plausible trajectories." fetchpriority="high" height="1265" src="assets/figures/motivation.webp" width="2200"/>
+<a aria-label="Enlarge the PILOT motivation figure" class="figure-link" data-lightbox="" href="assets/figures/motivation.svg">
+<img alt="Visual subgoals guide a robot through intermediate stages of a non-convex planning landscape, while a policy prior concentrates local action search around plausible trajectories." fetchpriority="high" height="690" src="assets/figures/motivation.svg" width="1200"/>
 <span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span>
 </a>
 <figcaption>Temporal guidance breaks a distant objective into local targets. Behavioral guidance makes the search toward each target more efficient.</figcaption>
@@ -71,8 +74,14 @@
 <section aria-labelledby="abstract-title" class="abstract-band" id="abstract">
 <div class="container narrow">
 <h2 id="abstract-title">Abstract</h2>
-<p>World-model planning for long-horizon manipulation is constrained by short reliable prediction horizons: a distant goal may provide little guidance for preparatory actions, while uninformed action sampling makes local optimization inefficient. We propose <strong>PILOT</strong> (Policy-Initialized Local Optimization with Temporal subgoals), which uses a video model to generate intermediate visual targets and a learned policy to initialize the Cross-Entropy Method (CEM). An action-conditioned world model refines candidate actions toward each target in a receding-horizon control loop.</p>
-<p>Our primary evaluation fine-tunes Wan and π<sub>0</sub> on the same 40 real-robot demonstrations. Across four UR5e manipulation tasks, PILOT achieves <strong>68.8% success</strong>, compared with 55.0% without policy initialization, 13.8% for policy-only execution, and 0.0% for direct final-goal planning. These results show that visual subgoals learned from a small demonstration collection can support effective online control even when direct policy execution remains unreliable, with policy initialization further improving local search efficiency. Complementary simulation experiments show gains of 30 and 22 percentage points over direct execution of the same policy on long Push-T tasks and on LIBERO-10.</p>
+<div class="abstract-content">
+<p>Latent world-model planning has shown promising results in goal-conditioned robotic manipulation, but remains challenging for long-horizon planning due to limited temporal guidance and inefficient action search. A distant visual goal provides little guidance for preparatory actions, while uninformed action sampling makes local optimization inefficient. We propose <strong>PILOT</strong> (<strong>P</strong>olicy-<strong>I</strong>nitialized <strong>L</strong>ocal <strong>O</strong>ptimization with <strong>T</strong>emporal subgoals), which uses a video model to generate intermediate visual subgoals and a learned policy to initialize the cross-entropy method (CEM). CEM refines candidate action sequences toward each subgoal using an action-conditioned world model in a receding-horizon control loop.</p>
+<div class="abstract-results" id="abstract-results">
+<p>In our primary real-robot evaluation across four UR5e manipulation tasks, PILOT achieves 68.8% success, compared with 55.0% without policy initialization, 13.8% for policy-only execution, and 0.0% for direct final-goal planning. Simulation results show that these gains persist over longer horizons: PILOT exceeds direct execution of the same policy by 30 percentage points on long Push-T tasks and by 22 percentage points on LIBERO-10.</p>
+<p>Policy initialization also accelerates local optimization: on Push-T, CEM matches the cost reached by generic initialization after 10 iterations in only 4 iterations and reduces the final planning cost by 24.1% under the same sampling budget. These results show that combining temporal subgoals with policy-guided action search improves both long-horizon task execution and local planning efficiency.</p>
+</div>
+</div>
+<button aria-controls="abstract-results" aria-expanded="false" class="abstract-toggle" data-abstract-toggle="" hidden="" type="button"><span>Show more</span><svg aria-hidden="true" class="icon" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></button>
 </div>
 </section>
 <section aria-labelledby="method-title" class="section container" id="method">
@@ -81,8 +90,8 @@
 <p>Three complementary models, connected by a closed-loop planner.</p>
 </div>
 <figure class="paper-figure">
-<a aria-label="Enlarge the PILOT framework diagram" class="figure-link" data-lightbox="" href="assets/figures/method.webp">
-<img alt="PILOT architecture: a video model generates visual subgoals, a policy proposes an action prior, and CEM refines actions using predicted latent states and the active visual target." height="848" loading="lazy" src="assets/figures/method.webp" width="1855"/>
+<a aria-label="Enlarge the PILOT framework diagram" class="figure-link" data-lightbox="" href="assets/figures/method.svg">
+<img alt="PILOT architecture: a video model generates visual subgoals, a policy proposes an action prior, and CEM refines actions using predicted latent states and the active visual target." height="636" loading="lazy" src="assets/figures/method.svg" width="1466"/>
 <span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span>
 </a>
 <figcaption>The video model proposes task progression; the policy proposes where to search. The action-conditioned world model evaluates and refines actions toward the active target.</figcaption>
@@ -119,8 +128,8 @@
 </div>
 <p class="media-note">Real robot demonstrations shown at 4× speed. Select Enlarge for a larger player.</p>
 <figure class="paper-figure execution-figure wide-figure">
-<a aria-label="Enlarge the predicted subgoals and robot executions for all four tasks" class="figure-link" data-lightbox="" href="assets/figures/real-subgoals.webp">
-<img alt="Four real-world task panels. In each panel, the top row shows the initial observation and six predicted subgoals; the bottom row shows the robot’s actual observations as it executes the plan." height="932" loading="lazy" src="assets/figures/real-subgoals.webp" width="3248"/>
+<a aria-label="Enlarge the predicted subgoals and robot executions for all four tasks" class="figure-link" data-lightbox="" href="assets/figures/real-subgoals.webp?v=2">
+<img alt="Four real-world task panels. In each panel, the top row shows the initial observation and six predicted subgoals; the bottom row shows the robot’s actual observations as it executes the plan." height="1034" loading="lazy" src="assets/figures/real-subgoals.webp?v=2" width="3600"/>
 <span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span>
 </a>
 <figcaption><strong>Predicted subgoals → robot execution.</strong> The top row of each panel shows video-predicted targets; the bottom row shows the robot observation when each subgoal expires. <span class="figure-scroll-note">Swipe sideways to explore the figure on smaller screens.</span></figcaption>
@@ -142,7 +151,7 @@
 <p class="chart-note">Visual subgoals provide temporal guidance. Policy initialization adds a further 13.8 percentage points in average success.</p>
 </div>
 <aside class="setup-summary">
-<a aria-label="Enlarge the real-world robot setup figure" class="figure-link" data-lightbox="" href="assets/figures/robot-setup.webp"><img alt="Real-world evaluation setup with a UR5e arm, a fixed RGB camera, and a tabletop manipulation workspace." height="1086" loading="lazy" src="assets/figures/robot-setup.webp" width="1448"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span></a>
+<a aria-label="Enlarge the real-world robot setup figure" class="figure-link" data-lightbox="" href="assets/figures/robot-setup.webp?v=2"><img alt="Real-world evaluation setup with a UR5e arm, a fixed RGB camera, and a tabletop manipulation workspace." height="1621" loading="lazy" src="assets/figures/robot-setup.webp?v=2" width="2160"/><span class="expand-hint"><svg class="icon"><use href="#icon-expand"></use></svg><span>Enlarge</span></span></a>
 <p><strong>Robot setup and tasks.</strong> A UR5e arm with a Robotiq 2F-85 gripper operates in a tabletop workspace, observed by a fixed RealSense L515 camera. The four tasks involve placing a cup into a bowl, a pencil case into a box, a bowl into a box, and one bowl into another.</p>
 </aside>
 </div><div aria-label="Real-world success results table" class="table-scroll" role="region" tabindex="0">
@@ -216,18 +225,18 @@
 </section>
 <section aria-labelledby="citation-title" class="section container narrow" id="citation">
 <div class="citation-heading"><div><h2 id="citation-title">BibTeX</h2></div><button class="copy-button" data-copy-citation="" hidden="" type="button"><svg class="icon"><use href="#icon-copy"></use></svg><span>Copy citation</span></button></div>
-<p class="citation-note">Anonymous manuscript. Citation details will be updated with the public release.</p>
+<p class="citation-note">Publication details will be updated when available.</p>
 <pre class="citation-code"><code id="bibtex">@misc{pilot,
   title = {PILOT: Guiding Long-Horizon World-Model Planning
-           with Visual Subgoals and Policy Priors
-           for Robotic Manipulation},
-  author = {Anonymous},
+           for Robot Manipulation with Visual Subgoals
+           and Policy Priors},
+  author = {Yang Liu and Hanchen Cui and Karthik Desingh},
   note = {Manuscript}
 }</code></pre>
 <p aria-live="polite" class="copy-status" role="status"></p>
 </section>
 </main>
 <footer class="site-footer"><div class="container footer-content"><p class="template-credit">Design inspired by the <a href="https://dream-steer.github.io/" rel="noopener" target="_blank">DreamSteer project page</a>.</p></div></footer>
-<dialog aria-label="Enlarged paper figure" class="figure-dialog"><button aria-label="Close enlarged figure" class="dialog-close" type="button"><svg class="icon"><use href="#icon-close"></use></svg></button><img alt="" class="dialog-image"/><p class="dialog-caption"></p><a class="dialog-original-link" href="assets/figures/method.webp" rel="noopener" target="_blank">Open full-resolution image ↗</a></dialog>
+<dialog aria-label="Enlarged paper figure" class="figure-dialog"><button aria-label="Close enlarged figure" class="dialog-close" type="button"><svg class="icon"><use href="#icon-close"></use></svg></button><img alt="" class="dialog-image"/><p class="dialog-caption"></p><a class="dialog-original-link" href="assets/figures/method.svg" rel="noopener" target="_blank">Open full-resolution image ↗</a></dialog>
 <dialog aria-labelledby="video-dialog-title" class="video-dialog"><div class="video-dialog-heading"><h3 id="video-dialog-title">Robot demonstration</h3><button aria-label="Close enlarged video" autofocus="" class="dialog-close" type="button"><svg class="icon"><use href="#icon-close"></use></svg></button></div><div class="video-dialog-media"><video aria-label="Enlarged robot demonstration" controls="" controlslist="nofullscreen" playsinline="" preload="metadata"></video><span aria-label="4 times speed" class="video-speed">×4</span></div></dialog></body>
 </html>

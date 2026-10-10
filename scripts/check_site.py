@@ -6,6 +6,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import re
 from urllib.parse import unquote, urlsplit
+from xml.etree import ElementTree
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -77,17 +78,26 @@ def main():
     try:
         from PIL import Image
     except ImportError:
+        Image = None
         print("INFO: Pillow unavailable; skipping pixel-dimension validation.")
-    else:
-        for attrs in parser.images:
-            if not attrs.get("alt"):
-                errors.append(f"Missing image description: {attrs['src']}")
-            asset = ROOT / attrs["src"]
-            if not asset.is_file():
+    for attrs in parser.images:
+        if not attrs.get("alt"):
+            errors.append(f"Missing image description: {attrs['src']}")
+        asset = ROOT / unquote(urlsplit(attrs["src"]).path)
+        if not asset.is_file():
+            continue
+        declared = (int(attrs.get("width", 0)), int(attrs.get("height", 0)))
+        if asset.suffix.lower() == ".svg":
+            svg = ElementTree.parse(asset).getroot()
+            if svg.tag != "{http://www.w3.org/2000/svg}svg":
+                errors.append(f"Invalid SVG root: {asset.name}")
                 continue
+            view_box = [float(value) for value in svg.attrib["viewBox"].split()]
+            if len(view_box) != 4 or declared != tuple(view_box[2:]):
+                errors.append(f"Incorrect SVG dimensions for {asset.name}: {declared} vs {view_box}")
+        elif Image is not None:
             with Image.open(asset) as image:
                 image.verify()
-                declared = (int(attrs.get("width", 0)), int(attrs.get("height", 0)))
                 if declared != image.size:
                     errors.append(f"Incorrect image dimensions for {asset.name}: {declared} vs {image.size}")
 

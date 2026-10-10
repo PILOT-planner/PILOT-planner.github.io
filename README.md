@@ -8,12 +8,16 @@ An academic project website for PILOT, built from the supplied PDF and LaTeX mat
 PILOT_website/
 ├── index.html          # Website entry point
 ├── assets/             # Images, fonts, PDF, videos, styles, and scripts
-├── scripts/            # Validation and export tools
+├── scripts/            # Asset conversion, validation, and export tools
 ├── README.md
 ├── .nojekyll           # Serve static files directly on GitHub Pages
 ├── .gitignore
 ├── local/              # Original materials and archived assets; not tracked
-│   ├── inputs/         # Original paper, video, and logo inputs
+│   ├── inputs/         # Original source materials
+│   │   ├── figures/    # Updated figure PDFs
+│   │   ├── logo/       # Original logo image
+│   │   ├── paper/      # Manuscript PDF and LaTeX archive
+│   │   └── videos/     # Original demonstration archive
 │   ├── paper-source/   # Extracted LaTeX source
 │   └── unused-assets/  # Retired images
 └── build/              # Generated files; not tracked
@@ -36,7 +40,7 @@ Open <http://localhost:8000>. You can also open `index.html` directly; a local H
 
 ## Website Content
 
-- Paper title, anonymous authorship, PDF download, and key results.
+- Paper title, authors and affiliation, PDF download, and key results.
 - Motivation, abstract, method diagram, and control settings.
 - Four real-world UR5e task demonstrations, video posters, and subgoal/execution comparisons.
 - Real-world results, per-task success counts, 95% Wilson confidence intervals, and robot setup.
@@ -46,7 +50,7 @@ Open <http://localhost:8000>. You can also open `index.html` directly; a local H
 
 The desktop content is centered at 84% of the viewport width, capped at 1200px. The title is capped at 1120px; the abstract, citation, and key metrics are capped at 1000px. Tablet margins are 24px on each side, and mobile margins are 20px. Desktop body text ranges from 22px to 28px, captions from 21px to 26px, and tables use 21px text. Mobile body text and captions use 20px, with 19px table text.
 
-The layout includes a continuous paper title, a soft gradient hero, dark resource buttons, three contribution cards below the first figure, and a single-column abstract. Task videos use four columns on desktop, two on tablets, and one on small screens. The real-world results pair a success chart with the robot setup and switch to a single column on smaller screens. Push-T and LIBERO-10 use tabs with keyboard support; both remain visible without JavaScript. Wide figures support horizontal scrolling on mobile, and figure dialogs link to full-resolution images. The header icon and favicon use the supplied PNG logo.
+The layout includes a continuous paper title, a soft gradient hero, dark resource buttons, three contribution cards below the first figure, and a single-column abstract. The abstract initially shows its first paragraph, ending with the receding-horizon control loop sentence, with a `Show more` / `Show less` button to expand or collapse the remaining text; the full abstract remains visible without JavaScript. Task videos use four columns on desktop, two on tablets, and one on small screens. The real-world results pair a success chart with the robot setup and switch to a single column on smaller screens. Push-T and LIBERO-10 use tabs with keyboard support; both remain visible without JavaScript. Wide figures support horizontal scrolling on mobile, and figure dialogs link to full-resolution images. The header icon and favicon use the supplied PNG logo.
 
 ## Videos and Resource Links
 
@@ -71,21 +75,34 @@ Each video displays a `×4` badge in the upper-right corner. Select `Enlarge` to
 
 When replacing a video, update the paths in both `assets/media.js` and `index.html`, along with the speed labels and description. Direct HTTPS video URLs are supported. Video hosting pages, such as YouTube watch pages, require a separate embedded player.
 
-The manuscript currently uses anonymous authorship. Update `.authors` and `#bibtex` in `index.html` when public authorship and publication details are available.
+The authors are Yang Liu and Hanchen Cui (equal contribution), followed by Karthik Desingh, affiliated with the University of Minnesota Twin Cities. Hanchen Cui and Karthik Desingh link to their personal homepages. The author list is also included in the page metadata and BibTeX. Update these fields in `index.html` when publication details become available.
 
 ## File Reference
 
 - `index.html`: Website content and experimental results.
 - `assets/style.css`: Typography, layout, and responsive styles.
 - `assets/fonts/`: Local Noto Sans fonts and the OFL license.
-- `assets/main.js`: Video integration, dialogs, tabs, and citation copying.
+- `assets/main.js`: Abstract expansion, video integration, dialogs, tabs, and citation copying.
 - `assets/media.js`: Video, code, and arXiv configuration.
 - `assets/videos/`: Compressed MP4 demonstrations, posters, and provenance notes.
-- `assets/figures/`: WebP figures converted from the paper materials.
+- `assets/figures/`: SVG diagrams, WebP photographic figures, and a social sharing preview.
 - `assets/pilot-paper.pdf`: An exact copy of the supplied paper PDF.
 - `local/paper-source/`: Extracted LaTeX source, retained locally.
 - `scripts/check_site.py`: Asset, link, image, PDF, and result-table validation.
 - `scripts/export_site.py`: Website-only release export.
+- `scripts/update_figures.py`: Convert updated figure PDFs with Poppler and Pillow.
+
+## Updating Figures
+
+Updated source PDFs are retained in the ignored `local/inputs/figures/` directory. Place future source PDFs here using the filenames listed in [assets/figures/README.md](assets/figures/README.md). The concept and method diagrams use SVG to preserve vector text and lines at any display size. The robot setup and four-task execution comparison use high-quality WebP. A raster copy of the method diagram is used for social sharing previews.
+
+To regenerate the assets, install Poppler (`pdftocairo` and `pdftoppm`) and Pillow, then run:
+
+```bash
+python3 scripts/update_figures.py
+```
+
+If source dimensions change, update the corresponding image dimensions in `index.html`. Bump the image cache version when replacing a WebP asset at the same path.
 
 ## Validation and Release Export
 
