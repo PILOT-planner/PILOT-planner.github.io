@@ -75,7 +75,7 @@ Each video displays a `×4` badge in the upper-right corner. Select `Enlarge` to
 
 When replacing a video, update the paths in both `assets/media.js` and `index.html`, along with the speed labels and description. Direct HTTPS video URLs are supported. Video hosting pages, such as YouTube watch pages, require a separate embedded player.
 
-The authors are Yang Liu and Hanchen Cui (equal contribution), followed by Karthik Desingh, affiliated with the University of Minnesota Twin Cities. Hanchen Cui and Karthik Desingh link to their personal homepages. The author list is also included in the page metadata and BibTeX. The citation identifies the 2026 arXiv preprint [arXiv:2610.14335](https://arxiv.org/abs/2610.14335), categorized as `cs.RO`.
+The authors are Yang Liu and Hanchen Cui (equal contribution), followed by Karthik Desingh, affiliated with the University of Minnesota Twin Cities. All three authors link to their personal homepages. The author list is also included in the page metadata and BibTeX. The citation identifies the 2026 arXiv preprint [arXiv:2610.14335](https://arxiv.org/abs/2610.14335), categorized as `cs.RO`.
 
 ## File Reference
 
