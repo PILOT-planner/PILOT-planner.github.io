@@ -23,10 +23,11 @@
     codeLink.classList.remove("is-disabled");
     document.querySelector("[data-code-status]").hidden = true;
   }
-  if (validResource(config.arxivUrl)) {
-    const arxivLink = document.querySelector("[data-arxiv-link]");
-    arxivLink.href = config.arxivUrl;
-    arxivLink.hidden = false;
+  const arxivLink = document.querySelector("[data-arxiv-link]");
+  if (arxivLink) {
+    const available = validResource(config.arxivUrl);
+    arxivLink.hidden = !available;
+    if (available) arxivLink.href = config.arxivUrl;
   }
 
   // The full abstract remains readable when JavaScript is unavailable.

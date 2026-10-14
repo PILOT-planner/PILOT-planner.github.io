@@ -3,7 +3,7 @@
 // Also update the default paths in index.html for playback without JavaScript.
 window.PILOT_CONFIG = {
   codeUrl: "",
-  arxivUrl: "",
+  arxivUrl: "https://arxiv.org/abs/2610.14335",
   videos: {
     "cup": "assets/videos/cup.mp4",
     "pencil-case": "assets/videos/pencil-case.mp4",

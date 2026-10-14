@@ -40,7 +40,7 @@ Open <http://localhost:8000>. You can also open `index.html` directly; a local H
 
 ## Website Content
 
-- Paper title, authors and affiliation, PDF download, and key results.
+- Paper title, authors and affiliation, arXiv links, and key results.
 - Motivation, abstract, method diagram, and control settings.
 - Four real-world UR5e task demonstrations, video posters, and subgoal/execution comparisons.
 - Real-world results, per-task success counts, 95% Wilson confidence intervals, and robot setup.
@@ -48,7 +48,7 @@ Open <http://localhost:8000>. You can also open `index.html` directly; a local H
 - Copyable BibTeX and enlarged paper figures.
 - Responsive layouts, keyboard navigation, and image/video dialogs. Basic reading and native video playback also work without JavaScript.
 
-The desktop content is centered at 84% of the viewport width, capped at 1200px. The title is capped at 1120px; the abstract, citation, and key metrics are capped at 1000px. Tablet margins are 24px on each side, and mobile margins are 20px. Desktop body text ranges from 22px to 28px, captions from 21px to 26px, and tables use 21px text. Mobile body text and captions use 20px, with 19px table text.
+The desktop content is centered at 84% of the viewport width, capped at 1200px. The title is capped at 1120px; the abstract and key metrics are capped at 1000px. The citation uses the main content width, and long BibTeX lines wrap without changing the copied text. Tablet margins are 24px on each side, and mobile margins are 20px. Desktop body text ranges from 22px to 28px, captions from 21px to 26px, and tables use 21px text. Mobile body text and captions use 20px, with 19px table text.
 
 The layout includes a continuous paper title, a soft gradient hero, dark resource buttons, three contribution cards below the first figure, and a single-column abstract. The abstract initially shows its first paragraph, ending with the receding-horizon control loop sentence, with a `Show more` / `Show less` button to expand or collapse the remaining text; the full abstract remains visible without JavaScript. Task videos use four columns on desktop, two on tablets, and one on small screens. The real-world results pair a success chart with the robot setup and switch to a single column on smaller screens. Push-T and LIBERO-10 use tabs with keyboard support; both remain visible without JavaScript. Wide figures support horizontal scrolling on mobile, and figure dialogs link to full-resolution images. The header icon and favicon use the supplied PNG logo.
 
@@ -59,7 +59,7 @@ Edit [assets/media.js](assets/media.js):
 ```javascript
 window.PILOT_CONFIG = {
   codeUrl: "",  // Code repository URL; empty shows Coming soon
-  arxivUrl: "", // arXiv URL; empty hides the button
+  arxivUrl: "https://arxiv.org/abs/2610.14335", // Empty hides the arXiv button
   videos: {
     "cup": "assets/videos/cup.mp4",
     "pencil-case": "assets/videos/pencil-case.mp4",
@@ -75,13 +75,14 @@ Each video displays a `×4` badge in the upper-right corner. Select `Enlarge` to
 
 When replacing a video, update the paths in both `assets/media.js` and `index.html`, along with the speed labels and description. Direct HTTPS video URLs are supported. Video hosting pages, such as YouTube watch pages, require a separate embedded player.
 
-The authors are Yang Liu and Hanchen Cui (equal contribution), followed by Karthik Desingh, affiliated with the University of Minnesota Twin Cities. Hanchen Cui and Karthik Desingh link to their personal homepages. The author list is also included in the page metadata and BibTeX. Update these fields in `index.html` when publication details become available.
+The authors are Yang Liu and Hanchen Cui (equal contribution), followed by Karthik Desingh, affiliated with the University of Minnesota Twin Cities. Hanchen Cui and Karthik Desingh link to their personal homepages. The author list is also included in the page metadata and BibTeX. The citation identifies the 2026 arXiv preprint [arXiv:2610.14335](https://arxiv.org/abs/2610.14335), categorized as `cs.RO`.
 
 ## File Reference
 
 - `index.html`: Website content and experimental results.
 - `assets/style.css`: Typography, layout, and responsive styles.
 - `assets/fonts/`: Local Noto Sans fonts and the OFL license.
+- `assets/icons/NOTICE.txt`: Sources and licenses for the inline Academicons ArXiv and Font Awesome GitHub symbols. Resource buttons follow the DreamSteer style, with uniform `Code (Coming soon)` text.
 - `assets/main.js`: Abstract expansion, video integration, dialogs, tabs, and citation copying.
 - `assets/media.js`: Video, code, and arXiv configuration.
 - `assets/videos/`: Compressed MP4 demonstrations, posters, and provenance notes.
