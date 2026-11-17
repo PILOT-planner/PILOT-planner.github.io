@@ -43,7 +43,7 @@ Open <http://localhost:8000>. You can also open `index.html` directly; a local H
 ## Website Content
 
 - Paper title, authors and affiliation, arXiv links, and key results.
-- Full narrated project video with original audio and a direct download.
+- Full narrated project video with original audio and native playback controls.
 - Motivation, abstract, method diagram, and control settings.
 - Four real-world UR5e task demonstrations, video posters, and subgoal/execution comparisons.
 - Paper-style SVG result charts, expandable numerical tables, 95% Wilson confidence intervals, and robot setup.
@@ -55,13 +55,13 @@ The desktop content is centered at 84% of the viewport width, capped at 1200px. 
 
 The layout includes a continuous paper title, a soft gradient hero, dark resource buttons, three contribution cards below the first figure, and a single-column abstract. The abstract initially shows its first paragraph, through the statement that no goal image is needed at test time, with a `Show more` / `Show less` button to expand or collapse the remaining text; the full abstract remains visible without JavaScript. Task videos use four columns on desktop, two on tablets, and one on small screens. The real-world results pair a success chart with the robot setup and switch to a single column on smaller screens. Push-T and LIBERO-10 use tabs with keyboard support; both remain visible without JavaScript. Wide figures support horizontal scrolling on mobile, and figure dialogs link to full-resolution images. The header icon and favicon use the supplied PNG logo.
 
-The full presentation follows the hero, introduced by "An overview of PILOT, its method, and robot experiments." without a separate visible heading. Its responsive player is capped at 1000px, and the `Video` navigation link jumps to it. The presentation retains its original audio, uses native playback controls, and remains available without JavaScript. A poster and `preload="none"` avoid loading the full video before playback; the download link provides the MP4 directly.
+The full presentation follows the hero, introduced by "An overview of PILOT, its method, and robot experiments." without a separate visible heading. Its responsive player is capped at 1000px, and the `Video` navigation link jumps to it. The presentation retains its original audio, uses native playback controls, and remains available without JavaScript. A poster and `preload="none"` avoid loading the full video before playback.
 
 The efficiency highlight reports approximately 4× planning speedup at comparable success on the real-robot Bowl-Bowl task, following the second contribution in the current manuscript. This is distinct from the Push-T CEM iteration comparison, which remains in the detailed planning-efficiency discussion. Real-world, Push-T, and LIBERO-10 results use the PDF's vector bar charts as the primary display; their unchanged numerical tables are available under native `View detailed results` disclosures that also work without JavaScript.
 
 ## Videos and Resource Links
 
-The presentation in `assets/videos/pilot-overview.mp4` is an exact copy of the supplied `PILOT_video_v52_arxiv_narrated_7min_nocaption.mp4`: approximately 7 minutes, 1876x1080 H.264 with AAC narration, about 47MB, already optimized for progressive playback. Its original input is retained under `local/inputs/videos/`. The player uses the source aspect ratio, and video/download/poster URLs use `?v=2` to refresh the previous version. Edit these paths and the dimensions in `index.html` when replacing it.
+The presentation in `assets/videos/pilot-overview.mp4` is an exact copy of the supplied `PILOT_video_v52_arxiv_narrated_7min_nocaption.mp4`: approximately 7 minutes, 1876x1080 H.264 with AAC narration, about 47MB, already optimized for progressive playback. Its original input is retained under `local/inputs/videos/`. The player uses the source aspect ratio, and video/poster URLs use `?v=2` to refresh the previous version. Edit these paths and the dimensions in `index.html` when replacing it.
 
 Edit [assets/media.js](assets/media.js):
 

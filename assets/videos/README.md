@@ -13,7 +13,7 @@ This is the supplied v52 no-caption presentation, with no website-added captions
 The original filename is ignored by Git; the archived input remains local.
 
 `pilot-overview-poster.webp` is the frame at one second, retained at 1876x1080
-and encoded as WebP at quality 90. The video, download, and poster URLs use
+and encoded as WebP at quality 90. The video and poster URLs use
 `?v=2` to refresh the previous version. The player uses `preload="none"`, displays
 native controls, and plays inline without autoplay. Starting this video pauses
 the task demonstrations, and starting a task demonstration pauses the narration.
