@@ -11,8 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     output = ROOT / "build/site"
     files = [ROOT / "index.html", ROOT / ".nojekyll"] + sorted(
-        file for file in (ROOT / "assets").rglob("*")
-        if file.is_file() and file.suffix != ".md"
+        file for file in (ROOT / "assets").rglob("*") if file.is_file() and file.suffix != ".md"
     )
     if output.exists():
         shutil.rmtree(output)

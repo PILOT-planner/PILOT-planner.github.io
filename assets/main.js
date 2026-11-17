@@ -54,10 +54,15 @@
   let pendingVideoSync;
   let videoSynced = false;
   const pauseOtherVideos = (current) => {
-    document.querySelectorAll(".task-media video, .video-dialog video").forEach((video) => {
+    document.querySelectorAll("video").forEach((video) => {
       if (video !== current) video.pause();
     });
   };
+
+  const projectVideo = document.querySelector(".project-video");
+  if (projectVideo) {
+    projectVideo.addEventListener("play", () => pauseOtherVideos(projectVideo));
+  }
 
   document.querySelectorAll("[data-video]").forEach((card) => {
     const src = config.videos?.[card.dataset.video];

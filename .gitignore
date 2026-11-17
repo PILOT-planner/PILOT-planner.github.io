@@ -6,6 +6,8 @@
 # Original inputs and extracted manuscript materials
 /local/
 /RA_L_PILOT_submission*.pdf
+/PILOT_arxiv*.pdf
+/PILOT_video*.mp4
 /*.zip
 /963-9638141_pilot-project-icon.png
 /paper-source/
